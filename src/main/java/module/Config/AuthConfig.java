@@ -34,7 +34,7 @@ public class AuthConfig extends WebSecurityConfigurerAdapter {
 		// phan quyen
 
 		http.authorizeRequests().antMatchers("/admin/**", "/Adminform/**").hasRole("ADMIN")
-				.antMatchers("/checkout/**","/order").hasAnyRole("USER").antMatchers().authenticated()
+				.antMatchers("/wishlist/**").hasAnyRole("USER").antMatchers().authenticated()
 				.anyRequest().permitAll();
 
 		// truy cap khong dung vai tro

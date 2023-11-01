@@ -43,7 +43,12 @@ public class Order implements Serializable {
 	private Date orderDate;
 	private Double amount;
 	@Column(columnDefinition = "nvarchar(100) not null")
-	private String adress;
+	private String firstname;
+	private String lastname;
+	private String city;
+	private String district;
+	private String ward;
+	private String street;
 	private String phone;
 	@Column(columnDefinition = "nvarchar(50) not null")
 	private Integer status;

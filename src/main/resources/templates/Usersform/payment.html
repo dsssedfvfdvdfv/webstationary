@@ -35,61 +35,38 @@
 				<div class="col-md-8 col-lg-8">
 					<div class="ckeckout-left-sidebar">
 						<!-- Start Checkbox Area -->
-						<div class="checkout-form">
-							<form method="post" name="checkorder">
+						
+						<!-- End Checkbox Area -->
+						<!-- Start Payment Box -->
+						<div class="payment-form">
+							<h2 class="section-title-3">Thanh toán</h2>
+							<div class="content-box-row">
+                                        <div class="radio-wrapper">
+                                            <label class="radio-label" for="shipping_rate_id_1000097177" style="margin: 0;">
+                                                <div class="radio-input">
+                                                    <input class="input-radio" type="radio" id="payment" name="payment" value="Thanh toán trực tiếp" checked />
+                                                </div>
+                                                <img class='main-img' src="https://hstatic.net/0/0/global/design/seller/image/payment/cod.svg?v=6" />
+                                                <span class="radio-label-primary" style="margin-left:10px ;">Thanh toán khi giao hàng (COD)</span>
 
-								<div class="checkout-form">
-									<h2 class="section-title-3">Chi tiết hóa đơn</h2>
-									<div class="checkout-form-inner">
-										<div class="single-checkout-box">
-											<input type="text" placeholder="Họ" ng-model="info.lastname">
-											<input type="text" placeholder="Tên"
-												ng-model="info.firstname">
-										</div>
-										<div class="single-checkout-box">
-											<input type="email" name="email" placeholder="Email*" ng-model="info.email">
-											
-											 <input
-												type="text" ng-model="info.numberphone" name="txtphone"
-												placeholder="Number Phone*"> 
-										</div>
-										<div class="single-checkout-box">
-											<textarea name="message" placeholder="Message*"></textarea>
-										</div>
-										<div class="single-checkout-box" style="height:80px">
-											<div class="single-checkout-box select-option mt--40">
-
-												<select ng-model="info.ct">
-													<option value="">Chọn thành phố</option>
-													<option ng-repeat="city in cities.data"
-														value="{{city.ProvinceName}}">{{city.ProvinceName}}</option>
-												</select> <select style="float: right; margin: 0; width: 47.5%;"
-													ng-model="info.district">
-													<option value="">Chọn quận huyện</option>
-													<option ng-repeat="city in districts.data"
-														value="{{city.DistrictName}}">{{city.DistrictName}}</option>
-												</select>
-
-											</div>
-										</div>
+                                            </label>
+                                        </div>
 
 
-										<div class="single-checkout-box">
+                                        <div class="radio-wrapper vnpay">
+                                            <label class="radio-label" for="shipping_rate_id_1000097177" style="margin: 0;">
+                                                <div class="radio-input">
+                                                    <input id="paypal" name="payment" value="Thanh toán online" class="input-radio" type="radio" />
+                                                </div>
+                                                <img class='main-img' src="https://hstatic.net/0/0/global/design/seller/image/payment/vnpay_new.svg?v=6" />
+                                                <span class="radio-label-primary" style="margin-left:10px ;">Thanh toán VNPAY</span>
+                                            </label>
 
-											<select ng-model="info.ward">
-												<option value="">Chọn phường xã</option>
-												<option ng-repeat="city in ward.data"
-													value="{{city.WardName}}">{{city.WardName}}</option>
-											</select> <input style="float: right" type="text" placeholder="Địa chỉ"
-												ng-model="info.street">
-										</div>
-
-
-									</div>
-								</div>
-							</form>
+                                        </div>
+                                    </div>
 						</div>
-					
+						<!-- End Payment Box -->
+						<!-- Start Payment Way -->
 					
 						<!-- End Payment Way -->
 					</div>
@@ -125,7 +102,7 @@
 											<td class="product-name"><a href="#">{{icart.products.name}}</a></td>
 											<td class="product-price"><span class="amount">{{icart.realPrice
 													| currency:"":0}}VND</span></td>
-											<td class="product-subtotal"><input type="text" readonly style="padding-left: 24px"
+											<td class="product-subtotal"><input type="number"
 												min="1" id="{{icart.cartDetailID}}"
 												ng-click="viewItems.update(icart.cartDetailID)"
 												ng-model="icart.quantity" /></td>

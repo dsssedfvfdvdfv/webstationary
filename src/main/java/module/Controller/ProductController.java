@@ -53,6 +53,7 @@ public class ProductController {
 
 	@RequestMapping("checkout")
 	public String checkout() {
+		
 		return "Usersform/checkout";
 	}
 
@@ -95,7 +96,10 @@ public class ProductController {
 	public String cart() {
 		return "Usersform/cart";
 	}
-
+	@RequestMapping("payment")
+	public String payment() {
+		return "Usersform/payment";
+	}
 	@RequestMapping("order")
 	public String order() {
 		return "Usersform/order";

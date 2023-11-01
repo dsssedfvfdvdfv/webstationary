@@ -71,13 +71,13 @@
                                                         ng-click="views(item.productID)" title="Chi tiết"
                                                         class="quick-view modal-view detail-link"><span
                                                             class="ti-eye"></span></a></li>
-                                                             <th:block th:if="${#request.isUserInRole('USER')}">
+                                                            
                                                 <li><a title="Add TO Cart"
                                                         th:attr="ng-click=@{|cart.add(item.productID)|}"><span
                                                             class="ti-shopping-cart"></span></a></li>
                                                 <li><a title="Wishlist" href="/wishlist"><span
                                                             class="ti-heart"></span></a></li>
-                                                             </th:block>
+                                                           
                                             </ul>
                                         </div>
                                    

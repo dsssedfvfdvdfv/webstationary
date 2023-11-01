@@ -18,17 +18,30 @@ myapp.controller("ctrlcartDetail", function($scope, $http) {
 	/* Hàm viewItems để hiển thị sản phẩm trong giỏ hàng */
 	$scope.viewItems = function() {
 		var user = $("#usernameCart").text(); // Lấy tên người dùng từ giao diện
-		// Gửi yêu cầu GET để lấy thông tin giỏ hàng của người dùng
-		$http.get(`http://localhost:8080/CartItem/cartItems/${user}`).then(resitem => {
-			$scope.itemcart = resitem.data; // Lưu thông tin giỏ hàng vào biến $scope.itemcart
-			console.log($scope.itemcart);
-			// Gửi yêu cầu GET để lấy chi tiết sản phẩm trong giỏ hàng
-			$http.get(`http://localhost:8080/CartItem/cartItemDetail/${$scope.itemcart.cartID}`).then(rescartDetail => {
-				$scope.detail = rescartDetail.data; // Lưu danh sách chi tiết sản phẩm vào biến $scope.detail
+		if (user) {
+			// Gửi yêu cầu GET để lấy thông tin giỏ hàng của người dùng
+			$http.get(`http://localhost:8080/CartItem/cartItems/${user}`).then(resitem => {
+				$scope.itemcart = resitem.data; // Lưu thông tin giỏ hàng vào biến $scope.itemcart
+				console.log($scope.itemcart);
+				// Gửi yêu cầu GET để lấy chi tiết sản phẩm trong giỏ hàng
+				$http.get(`http://localhost:8080/CartItem/cartItemDetail/${$scope.itemcart.cartID}`).then(rescartDetail => {
+					$scope.detail = rescartDetail.data; // Lưu danh sách chi tiết sản phẩm vào biến $scope.detail
+				});
 			});
-		});
-	}
+		} else {
+			var cartItems = sessionStorage.getItem('cartItems');
+			
+			if (cartItems) {
+				$scope.detail = JSON.parse(cartItems);	
+				console.log($scope.detail);						
+			} else {
+				console.log("Không tìm thấy sản phẩm nào trong sessionStorage");
+			}
 
+		}
+
+	}
+	$scope.viewItems();
 	/* Hàm delete để xóa một sản phẩm trong giỏ hàng */
 	$scope.delete = function(cartDetailID) {
 		// Xây dựng URL để gửi yêu cầu DELETE
