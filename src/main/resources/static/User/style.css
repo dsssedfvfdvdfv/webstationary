@@ -3761,11 +3761,34 @@ a.shipping-calculator-button:hover {
 .checkout-form-inner {
     margin-top: 40px;
 }
+.radio-wrapper, .checkbox-wrapper {
+    display: table;
+    box-sizing: border-box;
+    width: 100%;
+    zoom: 1;
+}
+.radio-wrapper .radio-label, .checkbox-wrapper .checkbox-label {
+    display: flex !important;
+    cursor: pointer !important;
+    align-items: center;
+    padding: 1.3em;
+    width: auto;
+}
+.radio-wrapper {
+   border: 1px solid #c3c3c3;
+}
+.main-img {
+    margin-left: 10px;
+    display: flex;
+    align-self: center;
+    width: 40px;
+    height: 40px;
+}
 .single-checkout-box input + input {
     margin-left: 34px;
 }
-.payment-form {
-    margin-top: 51px;
+.payment-form h2{
+    margin-bottom: 41px;
 }
 .payment-form-inner {
     margin-top: 40px;

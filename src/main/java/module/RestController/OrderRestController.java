@@ -51,9 +51,14 @@ public class OrderRestController {
 
 	@PostMapping("/Order")
 	public ResponseEntity<Order> Post(@RequestBody Order order) {
-		if (oDao.existsById(order.getOrderID())) {
-			return ResponseEntity.badRequest().build();
+		try {
+			if (oDao.existsById(order.getOrderID())) {
+				return ResponseEntity.badRequest().build();
+			}
+		} catch (Exception e) {
+			System.out.print(e);
 		}
+		
 
 		return ResponseEntity.ok(oDao.save(order));
 	}

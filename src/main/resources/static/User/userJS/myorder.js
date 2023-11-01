@@ -5,25 +5,29 @@ myapp.controller("ctrloder",function($scope,$http){
         $scope.viewOrderingByUsername = function(){
      
             var user=$("#username").text();
-            console.log(user);
-            $http.get(`http://localhost:8080/order/Orders/${user}`).then(resitem => {
-                $scope.order = resitem.data;
-             console.log($scope.order);
-  
-            });
+             if (user) {
+        $http.get(`http://localhost:8080/order/Orders/${user}`).then(resitem => {
+            $scope.order = resitem.data;
+            console.log($scope.order);
+        });
+    } else {
+       
+        $scope.order = '';
+    }
             
         }
 //xem order da dat voi moi account
         $scope.viewOrderedByUsername = function(){
      
-            var user=$("#username").text();
-            console.log(user);
-            $http.get(`http://localhost:8080/order/Ordered/${user}`).then(resitem => {
+            var user=$("#username").text();   
+            if(user!=null){
+				  $http.get(`http://localhost:8080/order/Ordered/${user}`).then(resitem => {
                 $scope.order = resitem.data;
              console.log($scope.order);
   
-            });
-            
+            });           
+			}      
+          
         }
 //da nhan
         $scope.danhan = function(orderid){

@@ -40,7 +40,7 @@
                         <ul class="menu-extra">
                             <li>
                                 <th:block th:if="${#request.isUserInRole('USER') or #request.isUserInRole('ADMIN')}">
-                                    <a ng-click="logout()"><i class="fas fa-sign-out-alt    "></i></a>
+                                    <a ng-click="logout()"><i class="fas fa-sign-out-alt"></i></a>
 
                                 </th:block>
                                 <th:block
@@ -186,7 +186,7 @@
             <!-- End Offset MEnu -->
             <!-- Start Cart Panel -->
             <div class="shopping__cart">
-                <th:block th:if="${#request.isUserInRole('USER') or #request.isUserInRole('ADMIN')}">
+               
                     <div class="shopping__cart__inner">
                         <div class="offsetmenu__close__btn">
                             <a href="#"><i class="zmdi zmdi-close"></i></a>
@@ -233,17 +233,8 @@
                             <li class="shp__checkout"><a href="/order">Order</a></li>
                         </ul>
                     </div>
-                </th:block>
-                <th:block th:unless="${#request.isUserInRole('USER') or #request.isUserInRole('ADMIN')}">
-                    <div class="shopping__cart__inner">
-                        <div class="offsetmenu__close__btn">
-                            <a href="#"><i class="zmdi zmdi-close"></i></a>
-                        </div>
-                        <ul class="shopping__btn">
-                            <li class="shp__checkout"><a href="/auth/login/form">Bạn chưa đăng nhập</a></li>
-                        </ul>
-                    </div>
-                </th:block>
+               
+               
             </div>
         </div>
     </nav>
