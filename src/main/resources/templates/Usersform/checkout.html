@@ -54,7 +54,7 @@
 												placeholder="Number Phone*"> 
 										</div>
 										<div class="single-checkout-box">
-											<textarea name="message" placeholder="Message*"></textarea>
+											<textarea name="message" placeholder="Message*" ng-model="info.message"></textarea>
 										</div>
 										<div class="single-checkout-box" style="height:80px">
 											<div class="single-checkout-box select-option mt--40">
@@ -147,7 +147,7 @@
 										<tbody>
 											<tr class="order-total">
 												<th>Total</th>
-												<td><strong><span class="amount">{{getTotal()|currency:"":0}}
+												<td><strong><span class="amount total">{{getTotal()|currency:"":0}}
 															VND</span></strong></td>
 											</tr>
 										</tbody>

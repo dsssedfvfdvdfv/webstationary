@@ -48,8 +48,12 @@ public class Order implements Serializable {
 	private String city;
 	private String district;
 	private String ward;
+	private String email;
 	private String street;
 	private String phone;
+	private String message;
+	private Boolean paymentmethod;
+	private Boolean paymentstatus;
 	@Column(columnDefinition = "nvarchar(50) not null")
 	private Integer status;
 	@JsonIgnore

@@ -15,9 +15,10 @@ myapp.controller("ctrlLogin",function($scope, $http,$timeout){
         var mytimeout = $timeout($scope.onTimeout,1000);
         if($scope.counter == 0){
             $timeout.cancel(mytimeout);
-            $scope.counter ="Mã OTP đã hết hiệu lực";
+                $scope.message = "Mã OTP đã hết hiệu lực";
+            $scope.counter =60;
             $http.get(`http://localhost:8080/send/removeSession`).then(resp => {
-            });
+            });          
         }
     }
 

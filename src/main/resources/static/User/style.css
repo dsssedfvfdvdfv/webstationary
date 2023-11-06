@@ -4324,6 +4324,22 @@ a.shipping-calculator-button:hover {
 
 
 
+.btn-vnpay{
+	width: 190px;
+    margin-top: 20px;
+    height: 56px;
+  background: #252525 none repeat scroll 0 0;
+    color: #fff;
+    font-weight: 700;
+}
+.btn-vnpay:hover {
+	background: red;
+	border: 0;
+	outline: none;
+}
+
+
+
 
 
 
