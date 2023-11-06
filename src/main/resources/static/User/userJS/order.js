@@ -253,6 +253,7 @@ myapp.controller("ctrlcart", function($scope, $http) {
 						window.location.href = "/payment";
 						sessionStorage.setItem('orderid', JSON.stringify(resOder));
 						sessionStorage.setItem('total',JSON.stringify(amountValue));
+						document.cookie = 'total='+amountValue;
 					}).catch(error => {
 						console.log(error);
 					});
@@ -346,7 +347,7 @@ myapp.controller("ctrlcart", function($scope, $http) {
 		}
 
 	}
-
+	
 	// Phân trang cho sản phẩm trong giỏ hàng
 	$scope.pagecartItem = {
 		page: 0,

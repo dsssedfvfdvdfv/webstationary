@@ -1,4 +1,4 @@
-myapp.controller("ctrlcartDetail", function($scope, $http) {
+myapp.controller("ctrlcartDetail", function($scope, $http,$window) {
 	// Khởi tạo các biến dữ liệu
 	$scope.detail = []; // Danh sách chi tiết sản phẩm trong giỏ hàng
 	$scope.items = []; // Danh sách sản phẩm
@@ -26,15 +26,15 @@ myapp.controller("ctrlcartDetail", function($scope, $http) {
 				console.log($scope.itemcart);
 				$http.get(`http://localhost:8080/CartItem/cartItemDetail/${$scope.itemcart.cartID}`).then(rescartDetail => {
 					$scope.detail = rescartDetail.data; // Lưu danh sách chi tiết sản phẩm vào biến $scope.detail
-						
+
 				});
 			});
-			
+
 		} else {
-				
+
 			if (cartItems) {
-				$scope.detail = JSON.parse(cartItems);	
-				console.log($scope.detail);						
+				$scope.detail = JSON.parse(cartItems);
+				console.log($scope.detail);
 			} else {
 				console.log("Không tìm thấy sản phẩm nào trong sessionStorage");
 			}
@@ -51,11 +51,11 @@ myapp.controller("ctrlcartDetail", function($scope, $http) {
 			var url = `http://localhost:8080/CartItem/cartItemDetail/${cartDetailID}`;
 			$http.delete(url).then(resp => {
 				var index = $scope.detail.findIndex(item => item.cartDetailID == cartDetailID);
-				$scope.detail.splice(index, 1);		
-				
+				$scope.detail.splice(index, 1);
+
 			}).catch(error => {
-    console.error('Error:', error); // Log the error to the console
-});
+				console.error('Error:', error); // Log the error to the console
+			});
 		} else {
 			var index = $scope.detail.findIndex(item => item.cartDetailID == cartDetailID);
 			if (index !== -1) {
@@ -77,7 +77,16 @@ myapp.controller("ctrlcartDetail", function($scope, $http) {
 
 		}
 	}
-	// Hàm pagecart để phân trang danh sách sản phẩm trong giỏ hàng
+	
+	$scope.clear = function() {
+		sessionStorage.clear();
+		Toast.fire({
+			icon: 'success',
+			title: 'Đã xóa tất cả sản phẩm',
+		})
+		 $window.location.reload();		
+	}
+
 	$scope.pagecart = {
 		page: 0,
 		size: 3,

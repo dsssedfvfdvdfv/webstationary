@@ -2,6 +2,7 @@ package module.Controller;
 
 import java.util.Optional;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import module.DAO.CartDetailDAO;
 import module.DAO.CartItemDAO;
+import module.DAO.OrderDAO;
 import module.DAO.ProductDAO;
 import module.Domain.Products;
 
@@ -32,6 +34,8 @@ public class ProductController {
 	@Autowired
 	HttpServletRequest res;
 
+	@Autowired
+	OrderDAO oDao;
 	@RequestMapping({ "home", "home/user" })
 	public String getAll(Model model) {
 		return "Usersform/home";
@@ -108,16 +112,26 @@ public class ProductController {
 		return "Usersform/order";
 	}
 	@GetMapping("/thank")
-	public String thank(HttpServletRequest request,@SessionAttribute("cartItems")String cartItems) {
-	 
-	    HttpSession session = request.getSession();
-	   
-
-	  
-	    if (cartItems != null) {
-	    	session.removeAttribute("cartItems");
-	    }
- 
-	    return "Usersform/thank";
+	public String thank(HttpServletRequest request) {
+		  Cookie[] cookies = request.getCookies();
+		    double orderTotal = 0; 
+		    
+		    if (cookies != null) {
+		        for (Cookie cookie : cookies) {
+		            if ("total".equals(cookie.getName())) {
+		             
+		                try {
+		                    orderTotal = Integer.parseInt(cookie.getValue());
+		                } catch (NumberFormatException e) {
+		                   
+		                }
+		            }
+		        }
+		    }
+		int id=oDao.findMaxOrderId();
+		boolean paymentmethod=true;
+		boolean paymentstatus=true;
+		oDao.updateOrder(orderTotal, paymentmethod, paymentstatus, id);
+ 	    return "Usersform/thank";
 	}
 }
