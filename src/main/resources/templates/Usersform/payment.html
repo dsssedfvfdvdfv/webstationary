@@ -44,7 +44,7 @@
                                         <div class="radio-wrapper">
                                             <label class="radio-label" for="shipping_rate_id_1000097177" style="margin: 0;">
                                                 <div class="radio-input">
-                                                    <input class="input-radio" type="radio" id="payment" name="payment" value="Thanh toán trực tiếp" checked />
+                                                    <input ng-model="info.paymentmethod" class="input-radio" type="radio" id="payment" name="payment" value="true" checked />
                                                 </div>
                                                 <img class='main-img' src="https://hstatic.net/0/0/global/design/seller/image/payment/cod.svg?v=6" />
                                                 <span class="radio-label-primary" style="margin-left:10px ;">Thanh toán khi giao hàng (COD)</span>
@@ -53,16 +53,6 @@
                                         </div>
 
 
-                                        <div class="radio-wrapper vnpay">
-                                            <label class="radio-label" for="shipping_rate_id_1000097177" style="margin: 0;">
-                                                <div class="radio-input">
-                                                    <input id="paypal" name="payment" value="Thanh toán online" class="input-radio" type="radio" />
-                                                </div>
-                                                <img class='main-img' src="https://hstatic.net/0/0/global/design/seller/image/payment/vnpay_new.svg?v=6" />
-                                                <span class="radio-label-primary" style="margin-left:10px ;">Thanh toán VNPAY</span>
-                                            </label>
-
-                                        </div>
                                     </div>
 						</div>
 						<!-- End Payment Box -->
@@ -98,11 +88,11 @@
 											<input type="hidden" ng-model="form.realPrice">
 											<input type="hidden" ng-model="form.products.name">
 
-
+											
 											<td class="product-name"><a href="#">{{icart.products.name}}</a></td>
 											<td class="product-price"><span class="amount">{{icart.realPrice
 													| currency:"":0}}VND</span></td>
-											<td class="product-subtotal"><input type="number"
+											<td class="product-subtotal"><input type="text"
 												min="1" id="{{icart.cartDetailID}}"
 												ng-click="viewItems.update(icart.cartDetailID)"
 												ng-model="icart.quantity" /></td>
@@ -124,14 +114,17 @@
 										<tbody>
 											<tr class="order-total">
 												<th>Total</th>
-												<td><strong><span class="amount">{{getTotal()|currency:"":0}}
+												<td><strong><span class="amount total">{{getTotal()|currency:"":0}}
 															VND</span></strong></td>
 											</tr>
 										</tbody>
 									</table>
 									<br> <br>
 									<div class="wc-proceed-to-checkout" ng-if="getTotal() >0">
-										<a ng-click="viewItems.addOrder()">Thanh toán</a>
+										<a ng-click="addPayment()">Thanh toán</a>
+										<form th:action="@{/restBank/submitOrder}" method="post">
+											<button type="submit" class="btn-vnpay">Thanh toán VNPAY</button>
+										</form>
 									</div>
 								</div>
 							</div>

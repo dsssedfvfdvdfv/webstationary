@@ -17,20 +17,21 @@ myapp.controller("ctrlcartDetail", function($scope, $http) {
 
 	/* Hàm viewItems để hiển thị sản phẩm trong giỏ hàng */
 	$scope.viewItems = function() {
-		var user = $("#usernameCart").text(); // Lấy tên người dùng từ giao diện
+		var user = $("#usernameCart").text();
+		var cartItems = sessionStorage.getItem('cartItems'); // Lấy tên người dùng từ giao diện
 		if (user) {
 			// Gửi yêu cầu GET để lấy thông tin giỏ hàng của người dùng
 			$http.get(`http://localhost:8080/CartItem/cartItems/${user}`).then(resitem => {
 				$scope.itemcart = resitem.data; // Lưu thông tin giỏ hàng vào biến $scope.itemcart
 				console.log($scope.itemcart);
-				// Gửi yêu cầu GET để lấy chi tiết sản phẩm trong giỏ hàng
 				$http.get(`http://localhost:8080/CartItem/cartItemDetail/${$scope.itemcart.cartID}`).then(rescartDetail => {
 					$scope.detail = rescartDetail.data; // Lưu danh sách chi tiết sản phẩm vào biến $scope.detail
+						
 				});
 			});
-		} else {
-			var cartItems = sessionStorage.getItem('cartItems');
 			
+		} else {
+				
 			if (cartItems) {
 				$scope.detail = JSON.parse(cartItems);	
 				console.log($scope.detail);						
@@ -44,19 +45,37 @@ myapp.controller("ctrlcartDetail", function($scope, $http) {
 	$scope.viewItems();
 	/* Hàm delete để xóa một sản phẩm trong giỏ hàng */
 	$scope.delete = function(cartDetailID) {
-		// Xây dựng URL để gửi yêu cầu DELETE
-		var url = `http://localhost:8080/CartItem/cartItemDetail/${cartDetailID}`;
-		// Gửi yêu cầu DELETE để xóa sản phẩm khỏi giỏ hàng
-		$http.delete(url).then(resp => {
-			// Tìm chỉ mục của sản phẩm cần xóa và loại bỏ nó khỏi danh sách
+		var user = $("#usernameCart").text();
+		console.log(user);
+		if (user) {
+			var url = `http://localhost:8080/CartItem/cartItemDetail/${cartDetailID}`;
+			$http.delete(url).then(resp => {
+				var index = $scope.detail.findIndex(item => item.cartDetailID == cartDetailID);
+				$scope.detail.splice(index, 1);		
+				
+			}).catch(error => {
+    console.error('Error:', error); // Log the error to the console
+});
+		} else {
 			var index = $scope.detail.findIndex(item => item.cartDetailID == cartDetailID);
-			$scope.detail.splice(index, 1);
-			$scope.viewItems(); // Cập nhật danh sách sản phẩm trong giỏ hàng
-		}).catch(error => Swal.fire(
-			'Error',
-			'Xin lỗi, Brand này đang được sử dụng :)',
-			'error'
-		));
+			if (index !== -1) {
+				var product = $scope.detail.splice(index, 1)[0]; // Lấy sản phẩm đã xóa
+				var cartItems = JSON.parse(sessionStorage.getItem('cartItems')) || [];
+				console.log(user);
+				// Tìm index của sản phẩm trong mảng cartItems
+				var cartIndex = cartItems.findIndex(item => item.cartDetailID == cartDetailID);
+				if (cartIndex !== -1) {
+					cartItems.splice(cartIndex, 1); // Xóa sản phẩm khỏi mảng cartItems
+				}
+
+				// Lưu mảng cartItems trở lại vào sessionStorage
+				sessionStorage.setItem('cartItems', JSON.stringify(cartItems));
+
+				$scope.viewItems.views();
+			}
+
+
+		}
 	}
 	// Hàm pagecart để phân trang danh sách sản phẩm trong giỏ hàng
 	$scope.pagecart = {

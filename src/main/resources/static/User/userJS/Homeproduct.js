@@ -71,7 +71,7 @@ myapp.controller("ctrlHome", function($scope, $http) {
 			//cart items
 			var user = $("#username").text();
 			var urlcartitems = "http://localhost:8080/CartItem/cartItems";
-
+		
 			if (user) {
 				$http.get(`${urlcartitems}/${user}`).then(resitem => {
 					$scope.itemcart = resitem.data;
@@ -90,7 +90,7 @@ myapp.controller("ctrlHome", function($scope, $http) {
 							products: $scope.product,
 							cartItems: $scope.itemcart
 						}
-
+						
 						var check = false;
 						$http.get(`http://localhost:8080/CartItem/cartItemDetail/${data.cartItems.cartID}`).then(resitem => {
 							$scope.checkProduct = resitem.data;

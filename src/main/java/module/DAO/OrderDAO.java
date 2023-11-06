@@ -10,9 +10,10 @@ import module.Domain.Order;
 
 @Repository
 public interface OrderDAO extends JpaRepository<Order, Integer> {
-	@Query(value = "select * from orders order by order_date desc", nativeQuery = true)
+	@Query(value = "select * from orders order by order_date DEsc ", nativeQuery = true)
 	List<Order> findAllDesc();
 
+	
 	@Query(value = "select * from orders where user_id = ?", nativeQuery = true)
 	Order findOrderByEmail(String user_id);
 	

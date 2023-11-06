@@ -18,7 +18,11 @@ myapp.controller("ctrlcart", function($scope, $http) {
 		lastname: "",
 		message: "",
 		district: "",
-		ward: ""
+		ward: "",
+		email: "",
+		message: "",
+		paymentmethod: "",
+		paymentstatus: ""
 	};
 
 	// Hàm để xem danh sách sản phẩm trong giỏ hàng
@@ -165,9 +169,11 @@ myapp.controller("ctrlcart", function($scope, $http) {
 									amount: $scope.getTotal(),
 									firstname: $scope.info.firstname,
 									lastname: $scope.info.lastname,
+									message: $scope.info.message,
 									city: $scope.info.ct,
 									district: $scope.info.district,
 									ward: $scope.info.ward,
+									email: $scope.info.email,
 									street: $scope.info.street,
 									orderDate: new Date(),
 									phone: $scope.info.numberphone,
@@ -177,12 +183,8 @@ myapp.controller("ctrlcart", function($scope, $http) {
 
 								// Gửi yêu cầu POST đến API để đặt hàng
 								$http.post(`http://localhost:8080/order/Order/`, dataOder).then(resOder => {
-									// Hiển thị thông báo thành công
-									Swal.fire(
-										'Đặt Hàng Thành Công',
-										'Cảm ơn bạn đã tin tưởng Shop TVTS :)',
-										'success'
-									);
+									sessionStorage.setItem('orderid', resOder.data.orderID);
+									window.location.href = "/payment"
 
 									$scope.infoOrder = resOder.data;
 									var dataallDetail = []
@@ -228,27 +230,95 @@ myapp.controller("ctrlcart", function($scope, $http) {
 						});
 					});
 				} else {
-					Swal.fire(
-						'Đặt Hàng Thành Công',
-						'Cảm ơn bạn đã tin tưởng Shop TVTS :)',
-						'success'
-					);
+
+					var dataOder = {
+						orderID: 0,
+						firstname: $scope.info.firstname,
+						lastname: $scope.info.lastname,
+						message: $scope.info.message,
+						city: $scope.info.ct,
+						district: $scope.info.district,
+						ward: $scope.info.ward,
+						email: $scope.info.email,
+						street: $scope.info.street,
+						orderDate: new Date(),
+						phone: $scope.info.numberphone,
+						paymentstatus: false,
+						status: 1,
+					}
+						var amountElement = document.querySelector(".total");
+						var amountValue = parseFloat(amountElement.textContent.replace(/\D/g, "")); 
+					$http.post(`http://localhost:8080/order/Order/`, dataOder).then(resOder => {
+
+						window.location.href = "/payment";
+						sessionStorage.setItem('orderid', JSON.stringify(resOder));
+						sessionStorage.setItem('total',JSON.stringify(amountValue));
+					}).catch(error => {
+						console.log(error);
+					});
 				}
 				// Gửi yêu cầu GET đến API để lấy thông tin giỏ hàng của người dùng
 
 			}
 		}
 	}
+	$scope.addPayment = function() {
+		var user = $("#usernameCart").text();
+		var amountElement = document.querySelector(".total");
+		var amountValue = parseFloat(amountElement.textContent.replace(/\D/g, "")); 
+		var order = sessionStorage.getItem('orderid');
+		var orders = JSON.parse(order);
+		var id = orders.data.orderID;
+		if (!id) {
+			console.log("Mã đơn hàng không tồn tại trong session.");
+			return;
+		}
 
+		var dataOrder = {
+			orderID: id,
+			amount: amountValue,
+			firstname: orders.data.firstname,
+			lastname: orders.data.lastname,
+			message: orders.data.message,
+			city: orders.data.city,
+			district: orders.data.district,
+			ward: orders.data.ward,
+			email: orders.data.email,
+			street: orders.data.street,
+			orderDate: new Date(),
+			phone: orders.data.phone,
+			paymentmethod: $scope.info.paymentmethod,
+			paymentstatus: true,
+			status: 1
+		};
+
+		// Gửi yêu cầu PUT để cập nhật đơn hàng
+		$http.put(`http://localhost:8080/order/Order/${id}`, dataOrder).then(response => {
+			Swal.fire(
+				'Đặt Hàng Thành Công',
+				'Cảm ơn bạn đã tin tưởng Shop TVTS :)',
+				'success'
+			);
+			setTimeout(function() {
+				window.location.href = "/";
+			}, 2000); // Chuyển trang sau 2 giây
+		}).catch(error => {
+			console.log("Lỗi khi cập nhật đơn hàng:", error);
+		});
+
+
+	}
 	// Hàm để xóa sản phẩm khỏi giỏ hàng
 	$scope.delete = function(cartDetailID) {
 		var user = $("#usernameCart").text();
+		console.log(user);
 		if (user) {
 			var url = `http://localhost:8080/CartItem/cartItemDetail/${cartDetailID}`;
 			$http.delete(url).then(resp => {
 				var index = $scope.detail.findIndex(item => item.cartDetailID == cartDetailID);
 				$scope.detail.splice(index, 1);
 				$scope.viewItems.views();
+				console.log(user);
 			}).catch(error => Swal.fire(
 				'Error',
 				'Xin lỗi, Brand này đang được sử dụng :)',
@@ -259,7 +329,7 @@ myapp.controller("ctrlcart", function($scope, $http) {
 			if (index !== -1) {
 				var product = $scope.detail.splice(index, 1)[0]; // Lấy sản phẩm đã xóa
 				var cartItems = JSON.parse(sessionStorage.getItem('cartItems')) || [];
-
+				console.log(user);
 				// Tìm index của sản phẩm trong mảng cartItems
 				var cartIndex = cartItems.findIndex(item => item.cartDetailID == cartDetailID);
 				if (cartIndex !== -1) {
