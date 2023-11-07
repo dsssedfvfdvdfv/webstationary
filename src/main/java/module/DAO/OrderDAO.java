@@ -17,7 +17,9 @@ public interface OrderDAO extends JpaRepository<Order, Integer> {
 	@Query(value = "select * from orders where (status = 3 or status = 4) order by order_date desc;\r\n"
 			+ " ", nativeQuery = true)
 	List<Order> findAllDesc();
-		
+	@Query(value = "select * from orders where status = 2  order by order_date desc;\r\n"
+			+ " ", nativeQuery = true)
+	List<Order> findAllDescOrder();
 	 @Query("SELECT MAX(o.orderID) FROM Order o")
 	    Integer findMaxOrderId();
 	 
