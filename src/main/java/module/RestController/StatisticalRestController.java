@@ -63,7 +63,7 @@ public class StatisticalRestController {
 	public ResponseEntity<List<Object[]>> getTop5buyer() {
 		return ResponseEntity.ok(dao.top5buyer());
 	}
-
+	
 	@GetMapping("infoDetail/{orderid}")
 	public ResponseEntity<List<OrderDetail>> getInfo(@PathVariable("orderid") Integer orderDetailId) {
 		

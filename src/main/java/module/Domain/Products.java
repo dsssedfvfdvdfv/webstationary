@@ -49,7 +49,8 @@ public class Products implements Serializable {
 	private Integer discount;
 	@Temporal(TemporalType.DATE)
 	private Date enteredDate;
-
+	private boolean status;
+	private boolean hot;
 	@ManyToOne
 	@JoinColumn(name = "brandID")
 	private Brand brand;

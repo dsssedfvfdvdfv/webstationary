@@ -4,10 +4,11 @@ let hostHome = "http://localhost:8080/restProduct/products";
 myapp.controller("ctrlHome", function($scope, $http) {
 	// Khởi tạo các biến dữ liệu
 	$scope.items = [];
+	$scope.itemss = [];
 	$scope.itemcate = [];
 	$scope.cartItems = [];
 	$scope.show = {};
-	/*Hàm load_all để tải danh sách sản phẩm:*/
+	/*Hàm load_all để tải danh sách sản phẩm:
 	$scope.load_all = function() {
 		$http.get(`${hostHome}`).then(resp => {
 			$scope.items = resp.data; // Gán dữ liệu sản phẩm từ phản hồi server vào biến $scope.items
@@ -16,7 +17,28 @@ myapp.controller("ctrlHome", function($scope, $http) {
 			});
 		});
 	}
-
+	*/
+	$scope.load_all = function() {
+		$http.get(`http://localhost:8080/restProduct/productstrue`).then(resp => {
+			$scope.items = resp.data; // Gán dữ liệu sản phẩm từ phản hồi server vào biến $scope.items
+		
+			/*$scope.itemss.forEach(item => {
+				item.enteredDate = new Date(item.enteredDate); // Chuyển đổi định dạng ngày thành đối tượng ngày
+			});
+			*/
+		});
+	}
+	
+	$scope.feature = function() {
+		$http.get(`http://localhost:8080/restProduct/productsfeature`).then(resp => {
+			$scope.itemss = resp.data; // Gán dữ liệu sản phẩm từ phản hồi server vào biến $scope.items
+			console.log($scope.itemss);
+			/*$scope.itemss.forEach(item => {
+				item.enteredDate = new Date(item.enteredDate); // Chuyển đổi định dạng ngày thành đối tượng ngày
+			});
+			*/
+		});
+	}
 	/* Hàm getAmount để tính giá sau khi giảm giá:*/
 	$scope.getAmount = function(unitPrice, discount) {
 		return unitPrice * ((100 - discount) / 100); // Tính giá sau khi áp dụng giảm giá
@@ -71,7 +93,7 @@ myapp.controller("ctrlHome", function($scope, $http) {
 			//cart items
 			var user = $("#username").text();
 			var urlcartitems = "http://localhost:8080/CartItem/cartItems";
-		
+
 			if (user) {
 				$http.get(`${urlcartitems}/${user}`).then(resitem => {
 					$scope.itemcart = resitem.data;
@@ -90,7 +112,7 @@ myapp.controller("ctrlHome", function($scope, $http) {
 							products: $scope.product,
 							cartItems: $scope.itemcart
 						}
-						
+
 						var check = false;
 						$http.get(`http://localhost:8080/CartItem/cartItemDetail/${data.cartItems.cartID}`).then(resitem => {
 							$scope.checkProduct = resitem.data;
@@ -236,8 +258,24 @@ myapp.controller("ctrlHome", function($scope, $http) {
 		}
 	}
 
+
+	$scope.pages = {
+		page: 0,
+		size: 4,
+		get itemss() {
+			var start = this.page * this.size;
+			return $scope.itemss.slice(start, start + this.size); // Trả về danh sách sản phẩm theo trang hiện tại
+		},
+		get count() {
+			return Math.ceil(1.0 * $scope.itemss.length / this.size); // Tính số lượng trang
+		},
+		loadmore() {
+			this.size += 4; // Tăng số lượng sản phẩm trên mỗi trang
+			$scope.load_all(); // Tải lại danh sách sản phẩm
+		}
+	}
 	/*Gọi hàm để tải dữ liệu ban đầu:*/
 	$scope.loadcate(); // Tải danh mục sản phẩm ban đầu
 	$scope.load_all(); // Tải danh sách sản phẩm ban đầu
-
+	$scope.feature()
 });

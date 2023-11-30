@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import java.io.UnsupportedEncodingException;
@@ -112,13 +113,23 @@ public class VNPayConfig {
 	        return ipAdress;
 	    }
 
-	    public static String getRandomNumber(int len) {
-	        Random rnd = new Random();
-	        String chars = "0123456789";
-	        StringBuilder sb = new StringBuilder(len);
-	        for (int i = 0; i < len; i++) {
-	            sb.append(chars.charAt(rnd.nextInt(chars.length())));
-	        }
-	        return sb.toString();
+	    public static String getRandomNumber(HttpServletRequest request) {
+	    	 Cookie[] cookies = request.getCookies();
+			    String orderTotal = ""; 
+			    
+			    if (cookies != null) {
+			        for (Cookie cookie : cookies) {
+			            if ("id".equals(cookie.getName())) {
+			             
+			                try {
+			                    orderTotal = cookie.getValue();
+			                } catch (NumberFormatException e) {
+			                   
+			                }
+			            }
+			        }
+			    }
+	      
+	        return orderTotal.toString();
 	    }
 }

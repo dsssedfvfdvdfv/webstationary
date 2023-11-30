@@ -1,4 +1,4 @@
-myapp.controller("ctrlcartDetail", function($scope, $http,$window) {
+myapp.controller("ctrlcartDetail", function($scope, $http, $window) {
 	// Khởi tạo các biến dữ liệu
 	$scope.detail = []; // Danh sách chi tiết sản phẩm trong giỏ hàng
 	$scope.items = []; // Danh sách sản phẩm
@@ -77,14 +77,15 @@ myapp.controller("ctrlcartDetail", function($scope, $http,$window) {
 
 		}
 	}
-	
+
 	$scope.clear = function() {
-		sessionStorage.clear();
+		sessionStorage.clear();		
 		Toast.fire({
 			icon: 'success',
 			title: 'Đã xóa tất cả sản phẩm',
 		})
-		 $window.location.reload();		
+
+		$window.location.reload();
 	}
 
 	$scope.pagecart = {
@@ -231,10 +232,11 @@ myapp.controller("ctrlcartDetail", function($scope, $http,$window) {
 	$scope.update = function() {
 		var item = angular.copy($scope.form); // Tạo bản sao của thông tin người dùng để cập nhật
 		var name = document.getElementById("photo").value.split('\\').pop(); // Lấy tên tập tin ảnh từ đường dẫn
-
+		console.log(name);
 		item.photo = name; // Gán tên ảnh mới cho thông tin người dùng
 		var url = `http://localhost:8080/restAccount/accounts/${$scope.form.email}`;
 		$http.put(url, item).then(resp => {
+			
 			Toast.fire({
 				icon: 'success',
 				title: 'Cập Nhật thành công'

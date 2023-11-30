@@ -1,6 +1,7 @@
 package module.Services;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import module.Config.VNPayConfig;
@@ -11,14 +12,33 @@ import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 @Service
 public class VNPayService {
+	@Autowired
+	HttpServletRequest request;
 	public String createOrder(int total, String orderInfor, String urlReturn){
+		 Cookie[] cookies = request.getCookies();
+		    String orderTotal = ""; 
+		    
+		    if (cookies != null) {
+		        for (Cookie cookie : cookies) {
+		            if ("id".equals(cookie.getName())) {
+		             
+		                try {
+		                    orderTotal = cookie.getValue();
+		                } catch (NumberFormatException e) {
+		                   
+		                }
+		            }
+		        }
+		    }
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
-        String vnp_TxnRef = VNPayConfig.getRandomNumber(8);
+        String vnp_TxnRef = orderTotal;
+
         String vnp_IpAddr = "127.0.0.1";
         String vnp_TmnCode = VNPayConfig.vnp_TmnCode;
         String orderType = "order";

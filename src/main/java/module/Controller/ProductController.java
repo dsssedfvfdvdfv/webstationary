@@ -14,10 +14,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+
+
 import module.DAO.CartDetailDAO;
 import module.DAO.CartItemDAO;
 import module.DAO.OrderDAO;
 import module.DAO.ProductDAO;
+import module.Domain.Order;
 import module.Domain.Products;
 
 @Controller
@@ -36,6 +39,10 @@ public class ProductController {
 
 	@Autowired
 	OrderDAO oDao;
+	
+	@Autowired
+	private module.Services.VNPayService vnPayService;
+
 	@RequestMapping({ "home", "home/user" })
 	public String getAll(Model model) {
 		return "Usersform/home";
@@ -104,7 +111,8 @@ public class ProductController {
 		return "Usersform/cart";
 	}
 	@RequestMapping("payment")
-	public String payment() {
+	public String payment(HttpServletRequest request) {
+		
 		return "Usersform/payment";
 	}
 	@RequestMapping("order")
@@ -113,9 +121,10 @@ public class ProductController {
 	}
 	@GetMapping("/thank")
 	public String thank(HttpServletRequest request) {
+		int paymentStatus = vnPayService.orderReturn(request);
 		  Cookie[] cookies = request.getCookies();
 		    double orderTotal = 0; 
-		    
+		    String idhoadon = ""; 
 		    if (cookies != null) {
 		        for (Cookie cookie : cookies) {
 		            if ("total".equals(cookie.getName())) {
@@ -128,10 +137,32 @@ public class ProductController {
 		            }
 		        }
 		    }
-		int id=oDao.findMaxOrderId();
-		boolean paymentmethod=true;
-		boolean paymentstatus=true;
-		oDao.updateOrder(orderTotal, paymentmethod, paymentstatus, id);
- 	    return "Usersform/thank";
+		    if (cookies != null) {
+		        for (Cookie cookie : cookies) {
+		            if ("id".equals(cookie.getName())) {
+		             
+		                try {
+		                    idhoadon = cookie.getValue();
+		                } catch (NumberFormatException e) {
+		                   
+		                }
+		            }
+		        }
+		    }
+		if(paymentStatus==1) {
+			  Integer id = Integer.parseInt(idhoadon);						 
+			boolean paymentmethod=false;
+			boolean paymentstatus=true;	
+			int status=1;
+			oDao.updateOrder(orderTotal, paymentmethod, paymentstatus,status, id);
+			return "Usersform/thank";
+		}else {
+			 Integer id = Integer.parseInt(idhoadon);		
+			boolean paymentmethod=false;
+			boolean paymentstatus=false;
+			int status=3;
+			oDao.updateOrder(orderTotal, paymentmethod, paymentstatus,status, id);
+			return  "Usersform/home";
+		}					    
 	}
 }

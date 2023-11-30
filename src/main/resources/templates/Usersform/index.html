@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{Usersform/layoutSite.html}">
+
+<head>
+<link rel="stylesheet" type="text/css"
+	href="asset/css/templatemo-villa-agency.css">
+</head>
+
+<body>
+	<section class="htc__product__area shop__page  bg__white"
+		style="padding-bottom: 130px" layout:fragment="content">
+		<div class="main-banner">
+			<div class="">
+				<div class="item item-1">
+					<div class="header-text">
+						<span class="category">Cần Thơ, <em>Việt Nam</em></span>
+						<h2>
+							Xin chào!<br>Những sản phẩm tuyệt vời đang chờ bạn
+						</h2>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container" ng-controller="ctrlHome">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="section-title">
+						<h2>Sản phẩm nổi bật</h2>
+					</div>
+
+					<div class="featured__controls">
+						<div class="row">
+							<div class="product__list another-product-style">
+								<div class="col-md-3 "
+									style="display: block; max-width: 300px; max-height: 440px; width: 300px; height: 440px;"
+									ng-repeat="item in pages.itemss | filter:name">
+
+									<div class="product">
+										<div class="product__inner">
+											<div class="pro__thumb">
+												<a style="display: block;"> <img
+													ng-src="{{'https://firebasestorage.googleapis.com/v0/b/webstorbook.appspot.com/o/'+item.image+ '?alt=media&token=155d6665-5e02-42e7-9b7b-f22eb82799fa'}}"
+													style="display: block; max-width: 270px; max-height: 270px; width: 270px; height: 270px;"
+													alt="product images"
+													class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}"
+													loading="lazy">
+												</a>
+											</div>
+
+										</div>
+										<div class="product__details">
+											<h2>
+												<a>{{item.name}}</a>
+											</h2>
+											<ul class="product__price">
+												<li class="old__price" ng-if="item.discount!=0">{{item.unitPrice
+													| currency:"":0}} VND</li>
+												<li class="new__price">{{getAmount(item.unitPrice,item.discount)
+													| currency:"":0}} VND</li>
+											</ul>
+										</div>
+									</div>
+
+								</div>
+
+
+								<!-- End Single Product -->
+							</div>
+						</div>
+						<div class="row mt--60">
+							<div class="col-md-12">
+								<div class="htc__loadmore__btn" style="margin-left: 30px">
+									<a href="/">Đi tới trang sản phẩm</a>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<div class="banner" style="margin: 50px 0">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-6 col-md-6 col-sm-6">
+							<div class="banner__pic">
+								<img src="asset/images/vanphong1.jpg" alt="">
+							</div>
+						</div>
+						<div class="col-lg-6 col-md-6 col-sm-6">
+							<div class="banner__pic">
+								<img src="asset/images/vanphong2.jpg" alt="">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<section class="from-blog spad">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="section-title from-blog__title">
+							<h2>Các bài viết</h2>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-4 col-md-4 col-sm-6">
+						<div class="blog__item">
+							<div class="blog__item__pic">
+								<img src="asset/images/vanphong3.jpg" alt="">
+							</div>
+							<div class="blog__item__text">
+								<ul style="margin-top: 5px">
+									<li><i class="fa fa-calendar-o"></i> Tháng 5 ngày 4,2019</li>								
+								</ul>
+								<h5 style="margin-top: 10px">
+									<a href="#">Đút túi những bí kíp kinh doanh</a>
+								</h5>
+							
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-6">
+						<div class="blog__item">
+							<div class="blog__item__pic">
+								<img src="asset/images/vanphong4.jpg" alt="">
+							</div>
+							<div class="blog__item__text">
+								<ul style="margin-top: 5px">
+									<li><i class="fa fa-calendar-o"></i> Tháng 5 ngày 4,2019</li>								
+								</ul>
+								<h5 style="margin-top: 10px">
+									<a href="#">Cách trang trí văn phòng đẹp</a>
+								</h5>
+								
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-6">
+						<div class="blog__item">
+							<div class="blog__item__pic">
+								<img src="asset/images/vanphong6.jpg" alt="">
+							</div>
+							<div class="blog__item__text">
+								<ul style="margin-top: 5px">
+									<li><i class="fa fa-calendar-o"></i> Tháng 5 ngày 4,2019</li>								
+								</ul>
+								<h5 style="margin-top: 10px">
+									<a href="#">Cách đọc sách hiệu quả</a>
+								</h5>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</section>
+
+</body>
+
+</html>

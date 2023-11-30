@@ -33,7 +33,7 @@ public class AuthController {
 		for (AccountRoles ar : acc) {
 			System.out.println("oke " + ar.getRole().getId());
 			if (ar.getRole().getId().equalsIgnoreCase("USER")) {
-				return "redirect:/";
+				return "redirect:/index";
 			}
 		}
 		return "redirect:/admin";

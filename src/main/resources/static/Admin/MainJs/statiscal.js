@@ -48,6 +48,38 @@ app.controller("ctrlstatistical", function($scope, $http,$window) {
 
             $scope.load();
             $scope.load_all();
+            $scope.loaddelivered();
+        }).catch(error => Swal.fire(
+            'Error',
+            'Hình như là mình hết hàng rồi :(',
+            'error'
+        ));
+
+    }).catch(error => console.log("Error", error));
+}
+$scope.danhanhang = function(orderid) {
+    $http.get(`http://localhost:8080/statistical/confirm/${orderid}`).then(resp => {
+        $scope.form = resp.data;
+        var item = $scope.form;
+        item.status = 4;
+       
+
+        $http.put(`http://localhost:8080/statistical/confirm/${orderid}`, item).then(resp => {
+            Swal.fire("Hệ Thống", "Đơn hàng đã được giao!!", "success");
+
+            // Cập nhật trạng thái trong dữ liệu $scope thay vì tải lại trang
+            item.status = 2;
+
+            // Thực hiện các hành động cập nhật khác mà bạn muốn
+            $http.post(`http://localhost:8080/send/orders`, item).then(ressendOder => {
+                console.log(ressendOder)
+            }).catch(error => {
+                console.log(error);
+                alert("that bai");
+            });
+			$scope.loaddelivered();
+            $scope.load();
+            $scope.load_all();
         }).catch(error => Swal.fire(
             'Error',
             'Hình như là mình hết hàng rồi :(',
@@ -73,7 +105,7 @@ $scope.huydon = function(orderid) {
                 console.log(error);
                 alert("that bai");
             });
-
+			$scope.loaddelivered();
             $scope.load();
             $scope.load_all();
         }).catch(error => Swal.fire(
@@ -89,6 +121,7 @@ $scope.huydon = function(orderid) {
 	$scope.info = function(orderid) {
 		$http.get(`http://localhost:8080/statistical/infoDetail/${orderid}`).then(resp => {
 			$scope.items = resp.data;
+			console.log($scope.items);
 		}).catch(error => console.log("Error", error));
 
 	}

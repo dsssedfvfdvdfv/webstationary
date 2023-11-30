@@ -32,12 +32,10 @@ public class UserService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 try {
 	Account account = accDAO.findById(username.trim()).get();
-	// tao user detail tu account
-System.out.println("Asds" + username);
+	
+System.out.println("Xin chào" + username);
 	String password = account.getPassword();
-//	String[] roles = account.getAccountRoles().stream()
-//			.map(au -> au.getRole().getId())
-//			.collect(Collectors.toList()).toArray(new String[0]);
+
 	
 	String[] roles = accountRoleRepository.findByAccount(username).stream()
 			.map(au -> au.getRole().getId())

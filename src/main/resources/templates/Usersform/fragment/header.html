@@ -6,7 +6,7 @@
                 <div class="row">
                     <div class="col-md-2 col-lg-2 col-sm-3 col-xs-3">
                         <div class="logo">
-                            <a th:href="@{/home/user}">
+                            <a th:href="@{/index}">
                                 <img src="/User/images/logo/logo-removebg-preview.png" alt="logo">
                             </a>
                         </div>
@@ -15,22 +15,21 @@
                     <div class="col-md-8 col-lg-8 col-sm-6 col-xs-6">
                         <nav class="mainmenu__nav hidden-xs hidden-sm">
                             <ul class="main__menu">
-                                <li class="drop"><a th:href="@{/home/user}">Home</a></li>
-                                <li class="drop"><a th:href="@{/cart}">CartItems</a></li>
-                                <li class="drop"><a th:href="@{/order}">Order</a> </li>
-                                <li class="drop"><a th:href="@{/about}">about</a>
+                                <li class="drop"><a th:href="@{/index}">Trang chủ</a></li>
+                                <li class="drop"><a th:href="@{/cart}">Giỏ hàng</a></li>
+                                <li class="drop"><a th:href="@{/order}">Đơn hàng</a> </li>
+                                <li class="drop"><a th:href="@{/about}">Về chúng tôi</a>
 
                                 </li>
-                                <li class="drop"><a th:href="@{#}">pages</a>
+                                <li class="drop"><a th:href="@{#}">Trang</a>
                                     <ul class="dropdown">
-                                        <li><a th:href="@{/about}">about</a></li>
-                                        <li><a th:href="@{/home}">shop</a></li>
-                                        <li><a th:href="@{/cart}">cart</a></li>
-                                        <li><a th:href="@{/order}">Order</a></li>
-                                        <li><a th:href="@{/auth/login/form}">login & register</a></li>
+                                      <li><a th:href="@{/home/user}">Trang sản phẩm</a></li>
+                                        <li><a th:href="@{/about}">Thông tin</a></li>
+                                        <li><a th:href="@{/home}">Cửa hàng</a></li>                                
+                                        <li><a th:href="@{/auth/login/form}">Đăng nhập & Đăng ký</a></li>
                                     </ul>
                                 </li>
-                                <li><a th:href="@{/contact}">contact</a></li>
+                                <li><a th:href="@{/contact}">Liên hệ</a></li>
                             </ul>
                         </nav>
 
@@ -86,14 +85,13 @@
                                 <br>
                                 <img src="{{'https://firebasestorage.googleapis.com/v0/b/webstorbook.appspot.com/o/'+form.photo+ '?alt=media&token=155d6665-5e02-42e7-9b7b-f22eb82799fa'}}"
                                     style=" display: block; max-width: 200px; max-height: 200px; width: 200px; height: 200px; margin-left: 70px;border-radius: 80%; "
-                                    alt="" id="imageuser">
+                                    alt="" id="imageuser" ng-model="form.photo">
                                 <br>
                                 <span class="login" name="formAccountRegis">
                                     <input type="file" class="hidden" onchange="chooseFile(this)" id="photo" multiple>
                                     <label for="photo" class="btn btn-outline btn-danger">Select file</label>
 
-                                    <button class="btn btn-outline btn-primary"
-                                        onclick="angular.element(this).scope().uploadImages()">upload</button>
+                                  
                                     <br>
                                     <script>
                                         function chooseFile(fileInput) {
@@ -115,7 +113,7 @@
                                     <span ng-show="formAccountRegis.txtemails.$invalid" class="check">Hãy nhập đúng
                                         Email của bạn</span>
                                     <br>
-                                    <input type="password" ng-model="form.password" class="hidden" name="txtpasswords"
+                                    <input type="password" ng-model="form.name" class="hidden" name="txtpasswords"
                                         minlength="6" placeholder="Password*">
                                     <span ng-show="formAccountRegis.txtpasswords.$invalid" class="check">Password cần
                                         hơn 6 kí tự</span>
@@ -126,7 +124,7 @@
                                         tên của bạn</span>
                                     <br>
                                     <br>
-                                    <button class="btn btn-block  btn-danger " ng-click="update()" type="submit">Cập
+                                    <button class="btn btn-block  btn-danger " ng-click="update()" type="submit"  onclick="angular.element(this).scope().uploadImages()">Cập
                                         Nhật</button>
                                     <button class="btn btn-block  btn-primary " data-toggle="modal"
                                         data-target="#changePassword" type="submit">Đổi Mật Khẩu</button>

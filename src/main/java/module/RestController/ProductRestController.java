@@ -28,6 +28,15 @@ public class ProductRestController {
 	public ResponseEntity<List<Products>> getAll() {
 		return ResponseEntity.ok(pDao.findAll());
 	}
+	@GetMapping("/productstrue")
+	public ResponseEntity<List<Products>> getAllTrue() {
+		return ResponseEntity.ok(pDao.findAllTrue());
+	}
+	
+	@GetMapping("/productsfeature")
+	public ResponseEntity<List<Products>> getAllFeatur() {
+		return ResponseEntity.ok(pDao.findAllfeature());
+	}
 
 	@GetMapping("/category/{categoryid}")
 	public ResponseEntity<List<Products>> getproductcate(@PathVariable("categoryid") Integer categoryid) {
@@ -56,6 +65,7 @@ public class ProductRestController {
 		if (!pDao.existsById(productID)) {
 			return ResponseEntity.notFound().build();
 		}
+		System.out.print(product);
 		pDao.save(product);
 		return ResponseEntity.ok(product);
 	}

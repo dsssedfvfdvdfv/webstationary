@@ -143,11 +143,13 @@ app.controller("ctrlProduct", function($scope, $http) {
 		else {
 			item.image = name;
 		}
+		
 		var url = `${hostProduct}/${$scope.form.productID}`;
 		$http.put(url, item).then(resp => {
-			Swal.fire("Good job!", "Đã cập nhật thành công ", "success");
-			var index = $scope.items.findIndex(item => item.productID == $scope.form.productID);
+			Swal.fire("Good job!", "Đã cập nhật thành công ", "success");			
+			var index = $scope.items.findIndex(item => item.productID == $scope.form.productID);			
 			$scope.items[index] = resp.data;
+			
 			$scope.reset();
 			$scope.load_all();
 		}).catch(error => Swal.fire(
@@ -164,7 +166,7 @@ app.controller("ctrlProduct", function($scope, $http) {
 		$http.get(url).then(resp => {
 			$scope.form = resp.data;
 			$scope.form.enteredDate = new Date(resp.data.enteredDate);
-
+		
 		}).catch(error => console.log("Error", error));
 	}
 	//---------------------------------------------------------------

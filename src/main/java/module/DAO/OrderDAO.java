@@ -1,5 +1,6 @@
 package module.DAO;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,14 +26,15 @@ public interface OrderDAO extends JpaRepository<Order, Integer> {
 	 
 	 @Modifying
 	 @Transactional
-	    @Query("UPDATE Order o SET o.amount = :amount, o.paymentmethod = :paymentMethod, o.paymentstatus = :paymentStatus WHERE o.id = :orderId")
+	    @Query("UPDATE Order o SET o.amount = :amount, o.paymentmethod = :paymentMethod, o.paymentstatus = :paymentStatus,o.status= :status WHERE o.id = :orderId")
 	    void updateOrder(
 	        @Param("amount") Double amount,
 	        @Param("paymentMethod") Boolean paymentMethod,
 	        @Param("paymentStatus") Boolean paymentStatus,
+	        @Param("status") Integer status,
 	        @Param("orderId") Integer orderId
 	    );
-	@Query(value = "select * from orders where orders.user_id = ? and  status between 1 and 2", nativeQuery = true)
+	@Query(value = "select * from orders where orders.user_id = ? ", nativeQuery = true)
 	List<Order> findOrderingByUsername(String username);
 
 	@Query(value = "select * from orders where orders.user_id = ? and  status between 3 and 4", nativeQuery = true)
@@ -65,4 +67,9 @@ public interface OrderDAO extends JpaRepository<Order, Integer> {
 			+ "where orders.status = 4\r\n" + "group by orders.user_id,accounts.name \r\n"
 			+ "order by COUNT(accounts.email) desc", nativeQuery = true)
 	List<Object[]> top5buyer();
+	
+	
+	@Query(value = "SELECT o.* FROM Order o WHERE o.firstname LIKE %:ten% OR o.orderDate = :ngayThang OR o.city LIKE %:thanhPho%", nativeQuery = true)
+	List<Object[]> search(@Param("ten") String ten, @Param("ngayThang") Date ngayThang, @Param("thanhPho") String thanhPho);
+
 }

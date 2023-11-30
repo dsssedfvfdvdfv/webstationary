@@ -6,7 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
+	<style type="text/css">
+	 .order-details {
+    display: flex;
+    justify-content: space-between;
+  }
 
+  .personal-info,
+  .payment-info {
+    width: 48%; /* Điều chỉnh kích thước tùy thuộc vào mục tiêu của bạn */
+    display: inline-grid;
+  }
+
+  .total-amount {
+    font-weight: bold;
+    font-size: 18px;
+  }
+  .name, .adress, .payment-method, .total-amount{
+  	margin: 10px 0;
+  }
+	</style>
     <title>Startmin - Bootstrap Admin Theme</title>
 
     <!-- Bootstrap Core CSS -->
@@ -65,12 +84,12 @@
                         <i class="fa fa-user fa-fw"></i> secondtruth <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#!info"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                        <li><a href="#!info"><i class="fa fa-user fa-fw"></i> Hồ sơ người dùng</a>
                         </li>
-                        <li><a ><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        <li><a ><i class="fa fa-gear fa-fw"></i> Cài đặt</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="/auth/logoff"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li><a href="/auth/logoff"><i class="fa fa-sign-out fa-fw"></i> Đăng xuất</a>
                         </li>
                     </ul>
                 </li>
@@ -92,24 +111,24 @@
                             <!-- /input-group -->
                         </li>
                         <li>
-                            <a href="#!statistical" class="active"><i class="fa fa-dashboard fa-fw"></i> Statistical</a>
+                            <a href="#!statistical" class="active"><i class="fa fa-dashboard fa-fw"></i> Thống kê</a>
                         </li>
                         <li>
-                            <a href="#!category"><i class="fa fa-table fa-fw"></i> Category</a>
+                            <a href="#!category"><i class="fa fa-table fa-fw"></i> Phân loại</a>
 
                             <!-- /.nav-second-level -->
                         </li>
                          <li>
-                            <a href="#!brand"><i class="fa fa-get-pocket fa-fw"></i> Brand</a>
+                            <a href="#!brand"><i class="fa fa-get-pocket fa-fw"></i> Hãng</a>
 
                             <!-- /.nav-second-level -->
                         </li>
                         <li>
-                            <a href="#!product"><i class="fa fa-shopping-basket fa-fw"></i> Product</a>
+                            <a href="#!product"><i class="fa fa-shopping-basket fa-fw"></i> Sản phẩm</a>
                         </li>
                     
                         <li>
-                            <a href="#!account"><i class="fa fa-user fa-fw"></i> Accounts</a>
+                            <a href="#!account"><i class="fa fa-user fa-fw"></i> Tài khoản</a>
                         
                             <!-- /.nav-second-level -->
                         </li>
@@ -118,10 +137,10 @@
                             <a ><i class="fa fa-files-o fa-fw"></i>Profile<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="#!info">User Profile</a>
+                                    <a href="#!info">Hồ sơ người dùng</a>
                                 </li>
                                 <li>
-                                    <a href="/auth/logoff">Logout</a>
+                                    <a href="/auth/logoff">Đăng xuất</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->

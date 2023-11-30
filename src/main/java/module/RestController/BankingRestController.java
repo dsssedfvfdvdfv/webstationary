@@ -37,8 +37,7 @@ public class BankingRestController {
 	@PostMapping("/submitOrder")
 	public void submidOrder(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		  Cookie[] cookies = request.getCookies();
-		    int orderTotal = 0; 
-		    
+		    int orderTotal = 0; 		    
 		    if (cookies != null) {
 		        for (Cookie cookie : cookies) {
 		            if ("total".equals(cookie.getName())) {
@@ -51,11 +50,10 @@ public class BankingRestController {
 		            }
 		        }
 		    }
-		    
+		  
 		    String orderInfo = "thanh toán đơn hàng";
-		    String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
-		    String vnpayUrl = vnpayservice.createOrder(orderTotal, orderInfo, baseUrl);
-		   
+		    String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();		    
+		    String vnpayUrl = vnpayservice.createOrder(orderTotal, orderInfo, baseUrl);	  
 		    response.sendRedirect(vnpayUrl);
 	}
 

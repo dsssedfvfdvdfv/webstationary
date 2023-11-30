@@ -10,6 +10,10 @@ public class IndexController {
 	public String index () {
 		return "redirect:/home";
 	}
+	@RequestMapping("/index")
+	public String indexhome () {
+		return "Usersform/index";
+	}
 	@RequestMapping({"/admin/**","/home/admins"})
 	public String admin () {
 		return "redirect:/Adminform/pages/index.html";
