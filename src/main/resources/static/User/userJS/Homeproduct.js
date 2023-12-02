@@ -32,7 +32,7 @@ myapp.controller("ctrlHome", function($scope, $http) {
 	$scope.feature = function() {
 		$http.get(`http://localhost:8080/restProduct/productsfeature`).then(resp => {
 			$scope.itemss = resp.data; // Gán dữ liệu sản phẩm từ phản hồi server vào biến $scope.items
-			console.log($scope.itemss);
+			
 			/*$scope.itemss.forEach(item => {
 				item.enteredDate = new Date(item.enteredDate); // Chuyển đổi định dạng ngày thành đối tượng ngày
 			});
@@ -62,16 +62,22 @@ myapp.controller("ctrlHome", function($scope, $http) {
 	$scope.views = function(productID) {
 		var url = `${hostHome}/${productID}`;
 		$http.get(url).then(resp => {
-			$scope.show = resp.data; // Gán thông tin sản phẩm vào biến $scope.show để hiển thị
+			$scope.show = resp.data;	
+			/*		
+			window.location.href='/productdetail';
+			localStorage.setItem('showData', JSON.stringify($scope.show));
+			*/
 		}).catch(error => console.log("Error", error));
 	}
 
-
+	
+	
 	/*Hàm loadcate để tải danh sách danh mục sản phẩm:*/
 	$scope.loadcate = function() {
 		var url = `http://localhost:8080/categoryRest/categories`
 		$http.get(url).then(resp => {
 			$scope.itemcate = resp.data; // Gán dữ liệu danh mục sản phẩm từ phản hồi server vào biến $scope.itemcate
+			
 		}).catch(error => {
 
 		});
@@ -277,5 +283,6 @@ myapp.controller("ctrlHome", function($scope, $http) {
 	/*Gọi hàm để tải dữ liệu ban đầu:*/
 	$scope.loadcate(); // Tải danh mục sản phẩm ban đầu
 	$scope.load_all(); // Tải danh sách sản phẩm ban đầu
-	$scope.feature()
+	$scope.feature();
+
 });

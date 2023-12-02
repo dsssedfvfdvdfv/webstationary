@@ -119,6 +119,11 @@ public class ProductController {
 	public String order() {
 		return "Usersform/order";
 	}
+	
+	@RequestMapping("productdetail")
+	public String productdetail() {
+		return"Usersform/productdetail";
+	}
 	@GetMapping("/thank")
 	public String thank(HttpServletRequest request) {
 		int paymentStatus = vnPayService.orderReturn(request);

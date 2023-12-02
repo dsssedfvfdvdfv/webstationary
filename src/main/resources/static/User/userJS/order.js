@@ -327,7 +327,7 @@ myapp.controller("ctrlcart", function($scope, $http) {
 			paymentmethod: $scope.info.paymentmethod,
 			paymentstatus: true,
 			amount:amountValue,
-			status: 0
+			status: 1
 		};
 
 		console.log(dataOrder);

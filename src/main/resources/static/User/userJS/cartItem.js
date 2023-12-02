@@ -79,7 +79,13 @@ myapp.controller("ctrlcartDetail", function($scope, $http, $window) {
 	}
 
 	$scope.clear = function() {
-		sessionStorage.clear();		
+		var user = $("#usernameCart").text();
+		if (user) {
+			for (var i = 0; i < $scope.detail.length; i++) {
+				$scope.delete($scope.detail[i].cartDetailID)
+			}
+		}
+		sessionStorage.clear();
 		Toast.fire({
 			icon: 'success',
 			title: 'Đã xóa tất cả sản phẩm',
@@ -131,16 +137,7 @@ myapp.controller("ctrlcartDetail", function($scope, $http, $window) {
 		uploadIMG
 			.then(snapshot => snapshot.ref.getDownloadURL()) // Lấy đường dẫn URL của tập tin đã tải lên
 			.then(url => {
-				console.log(url); // Hiển thị URL của ảnh trong console
-				// Sử dụng thư viện SweetAlert2 để hiển thị thông báo thành công với ảnh và tiêu đề
-				Swal.fire({
-					title: 'Upload thành công',
-					text: '',
-					imageUrl: url, // Đường dẫn ảnh để hiển thị
-					imageWidth: 400,
-					imageHeight: 400,
-					imageAlt: 'Custom image',
-				});
+
 			})
 			.catch(error => {
 				// Nếu có lỗi, hiển thị thông báo lỗi bằng thư viện SweetAlert2
@@ -231,12 +228,15 @@ myapp.controller("ctrlcartDetail", function($scope, $http, $window) {
 	// Hàm update để cập nhật thông tin người dùng
 	$scope.update = function() {
 		var item = angular.copy($scope.form); // Tạo bản sao của thông tin người dùng để cập nhật
-		var name = document.getElementById("photo").value.split('\\').pop(); // Lấy tên tập tin ảnh từ đường dẫn
-		console.log(name);
-		item.photo = name; // Gán tên ảnh mới cho thông tin người dùng
+		var name = document.getElementById("photo");
+		var value = name.value;
+		console.log(value);
+
+		item.photo = value; // Gán tên ảnh mới cho thông tin người dùng
 		var url = `http://localhost:8080/restAccount/accounts/${$scope.form.email}`;
+		 
 		$http.put(url, item).then(resp => {
-			
+			console.log(name);
 			Toast.fire({
 				icon: 'success',
 				title: 'Cập Nhật thành công'
@@ -247,5 +247,6 @@ myapp.controller("ctrlcartDetail", function($scope, $http, $window) {
 		}).catch(error => {
 
 		});
+		
 	}
 });

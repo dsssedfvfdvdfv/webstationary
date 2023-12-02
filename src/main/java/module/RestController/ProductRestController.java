@@ -43,6 +43,8 @@ public class ProductRestController {
 		return ResponseEntity.ok(pDao.findByCategory(categoryid));
 	}
 
+
+	
 	@GetMapping("/products/{productID}")
 	public ResponseEntity<Products> getOne(@PathVariable("productID") Integer productID) {
 		if (!pDao.existsById(productID)) {
@@ -56,6 +58,7 @@ public class ProductRestController {
 		if (pDao.existsById(product.getProductID())) {
 			return ResponseEntity.badRequest().build();
 		}
+		System.out.print(product);
 		pDao.save(product);
 		return ResponseEntity.ok(product);
 	}

@@ -87,8 +87,9 @@
                                     style=" display: block; max-width: 200px; max-height: 200px; width: 200px; height: 200px; margin-left: 70px;border-radius: 80%; "
                                     alt="" id="imageuser" ng-model="form.photo">
                                 <br>
+                                <input type="hidden" ng-model="form.photo" ng-value="form.photo"id="photo">
                                 <span class="login" name="formAccountRegis">
-                                    <input type="file" class="hidden" onchange="chooseFile(this)" id="photo" multiple>
+                                    <input type="file" class="hidden" onchange="chooseFile(this)"  multiple>
                                     <label for="photo" class="btn btn-outline btn-danger">Select file</label>
 
                                   

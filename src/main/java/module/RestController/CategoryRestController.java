@@ -26,7 +26,7 @@ public class CategoryRestController {
 
 	@GetMapping("/categories")
 	public ResponseEntity<List<Category>> getAll() {
-		return ResponseEntity.ok(cDao.findAll());
+		return ResponseEntity.ok(cDao.findAllCategory());
 	}
 
 	@GetMapping("/categories/{categoryId}")

@@ -35,6 +35,7 @@ public class Category implements Serializable {
 	private Integer categoryID;
 	@Column(name = "name", length = 100, columnDefinition = "nvarchar(100) not null")
 	private String name;
+	private boolean status;
 	@JsonIgnore
 	@OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.SAVE_UPDATE })

@@ -10,7 +10,7 @@ import module.Domain.Products;
 @Repository
 public interface ProductDAO extends JpaRepository<Products, Integer> {
 
-	@Query(value = "select * from products where categoryid = ?", nativeQuery = true)
+	@Query(value = "select * from products where categoryid = ? and status=1 ", nativeQuery = true)
 	List<Products> findByCategory(Integer categoryid);
 	
 	

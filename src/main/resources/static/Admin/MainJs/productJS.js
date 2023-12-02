@@ -91,11 +91,14 @@ app.controller("ctrlProduct", function($scope, $http) {
 	$scope.create = function() {
 		var url = `${hostProduct}`;
 		var data = angular.copy($scope.form);
-		var name = document.getElementById("photo").value.split('\\').pop()
+		var name = document.getElementById("photo").value.split('\\').pop();
+		var nameproduct=document.getElementById("name");
+		var namevalue=nameproduct.value;
+		
 		data.image = name;
 		data.productID = 0;
 		console.log(data)
-		
+
 		if (!name) {
 			Swal.fire(
 				'Error',
@@ -104,20 +107,36 @@ app.controller("ctrlProduct", function($scope, $http) {
 			);
 			return; // Dừng việc thực hiện yêu cầu POST nếu không có ảnh
 		}
-		$http.post(url, data).then(function(res) {
-			Swal.fire("Good job!", "Đã thêm thành công Product: " + data.name, "success");
-			res.data.enteredDate = new Date(res.data.enteredDate);
-			$scope.reset();
-			$scope.load_all();
+		console.log("Data:", data);
 
-		}, function(error) {
-
+		if (namevalue==null) {
 			Swal.fire(
 				'Error',
 				'Thêm thất bại, Bạn hãy điền đúng thông tin nhé :(' + error.data,
 				'error'
-			)
-		})
+			);
+			return;
+		} else {
+			$http.post(url, data).then(
+				function(res) {
+					console.log("Success Response:", res);
+					Swal.fire("Good job!", "Đã thêm thành công Product: " + data.name, "success");
+					res.data.enteredDate = new Date(res.data.enteredDate);
+					$scope.reset();
+					$scope.load_all();
+				},
+				function(error) {
+					console.error("Error Response:", error);
+					Swal.fire(
+						'Error',
+						'Thất bại, Bạn hãy điền đúng thông tin nhé :(' + error.data,
+						'error'
+					);
+				}
+			);
+		}
+
+
 	}
 	//---------------------------------------------------------------
 
@@ -143,13 +162,13 @@ app.controller("ctrlProduct", function($scope, $http) {
 		else {
 			item.image = name;
 		}
-		
+
 		var url = `${hostProduct}/${$scope.form.productID}`;
 		$http.put(url, item).then(resp => {
-			Swal.fire("Good job!", "Đã cập nhật thành công ", "success");			
-			var index = $scope.items.findIndex(item => item.productID == $scope.form.productID);			
+			Swal.fire("Good job!", "Đã cập nhật thành công ", "success");
+			var index = $scope.items.findIndex(item => item.productID == $scope.form.productID);
 			$scope.items[index] = resp.data;
-			
+
 			$scope.reset();
 			$scope.load_all();
 		}).catch(error => Swal.fire(
@@ -166,7 +185,7 @@ app.controller("ctrlProduct", function($scope, $http) {
 		$http.get(url).then(resp => {
 			$scope.form = resp.data;
 			$scope.form.enteredDate = new Date(resp.data.enteredDate);
-		
+
 		}).catch(error => console.log("Error", error));
 	}
 	//---------------------------------------------------------------
@@ -213,15 +232,15 @@ app.controller("ctrlProduct", function($scope, $http) {
 	}
 	//---------------------------------------------------------------
 	$scope.views = function(productID) {
-    var url = `${hostProduct}/${productID}`;
-    $http.get(url).then(resp => {
-        $scope.view = resp.data;
-        if ($scope.view && $scope.view.brand && $scope.view.brand.name) {
-            // Giải mã chuỗi trong tên brand
-            $scope.view.brand.name = decodeURIComponent($scope.view.brand.name);
-        }
-    }).catch(error => console.log("Error", error));
-}
+		var url = `${hostProduct}/${productID}`;
+		$http.get(url).then(resp => {
+			$scope.view = resp.data;
+			if ($scope.view && $scope.view.brand && $scope.view.brand.name) {
+				// Giải mã chuỗi trong tên brand
+				$scope.view.brand.name = decodeURIComponent($scope.view.brand.name);
+			}
+		}).catch(error => console.log("Error", error));
+	}
 
 	//---------------------------------------------------------------
 	$scope.pager = {
