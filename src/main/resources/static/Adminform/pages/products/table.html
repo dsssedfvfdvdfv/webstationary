@@ -12,14 +12,16 @@
 			<tr
 				style="background-color: rgb(104, 104, 104); height: 40px; color: white; font-weight: bolder; text-align: center;">
 
-				<td>Image</td>
-				<td>Name</td>
-				<td>Unit Price</td>
+				<td>Hình</td>
+				<td>Tên</td>
+				<td>Giá</td>
 
-				<td>Discount</td>
-				<td>EnteredDate</td>
-				<td>Category</td>
-				<td>Brand</td>
+				<td>Giảm giá</td>
+				<td>Ngày nhập</td>
+				<td>Loại</td>
+				<td>Hãng</td>
+				<td>Status</td>
+				<td>Nổi bật</td>
 				<td></td>
 			</tr>
 		</thead>
@@ -28,13 +30,21 @@
 				<td><img
 					ng-src="{{'https://firebasestorage.googleapis.com/v0/b/webstorbook.appspot.com/o/'+item.image+ '?alt=media&token=f7bb9152-663d-46d8-b463-193c3cb193ef'}}"
 					alt="" width="50px"></td>
-				<td>{{item.name| uppercase}}</td>
+				<td style="width: 200px">{{item.name| uppercase}}</td>
 
 				<td>{{item.unitPrice | currency:""}} VND</td>
 				<td>-{{item.discount}}%</td>
 				<td>{{item.enteredDate | date : 'dd-MM-yyyy'}}</td>
 				<td>{{item.category.name}}</td>
 				<td>{{item.brand.name}}</td>
+				<td>
+					<div ng-if="item.status==true" style="height: 10px;width: 10px;background: green;border-radius: 50%;margin-top: 5px;margin-left: 20px "></div>
+					<div ng-if="item.status==false" style="height: 10px;width: 10px;background: red;border-radius: 50%;margin-top: 5px;margin-left: 20px "></div>
+				</td>
+				<td>
+					<div ng-if="item.hot==true" style="height: 10px;width: 10px;background: green;border-radius: 50%;margin-top: 5px;margin-left: 20px "></div>
+					<div ng-if="item.hot==false" style="height: 10px;width: 10px;background: red;border-radius: 50%;margin-top: 5px;margin-left: 20px "></div>
+				</td>
 				<td>
 					<button class="btn btn-info" data-toggle="modal"
 						data-target="#viewproduct" ng-click="views(item.productID)">

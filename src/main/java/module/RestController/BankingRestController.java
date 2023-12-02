@@ -1,12 +1,16 @@
 package module.RestController;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,21 +28,33 @@ import module.Services.VNPayService;
 public class BankingRestController {
 	@Autowired
 	VNPayService vnpayservice;
-	
+
 	@Autowired
 	OrderDAO oDao;
 	
-	@PostMapping("/submitOrder")
-	public void submidOrder(
-	        HttpServletRequest request,
-	        HttpServletResponse response) throws IOException {
-	    int orderTotal = 200000;
-	    String orderInfo = "thanh toán đơn hàng";
-	    String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
-	    String vnpayUrl = vnpayservice.createOrder(orderTotal, orderInfo, baseUrl);  
-	    Order order= new Order();
-	    
-	    response.sendRedirect(vnpayUrl);
-	}
 	
+	@Transactional
+	@PostMapping("/submitOrder")
+	public void submidOrder(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		  Cookie[] cookies = request.getCookies();
+		    int orderTotal = 0; 		    
+		    if (cookies != null) {
+		        for (Cookie cookie : cookies) {
+		            if ("total".equals(cookie.getName())) {
+		             
+		                try {
+		                    orderTotal = Integer.parseInt(cookie.getValue());
+		                } catch (NumberFormatException e) {
+		                   
+		                }
+		            }
+		        }
+		    }
+		  
+		    String orderInfo = "thanh toán đơn hàng";
+		    String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();		    
+		    String vnpayUrl = vnpayservice.createOrder(orderTotal, orderInfo, baseUrl);	  
+		    response.sendRedirect(vnpayUrl);
+	}
+
 }

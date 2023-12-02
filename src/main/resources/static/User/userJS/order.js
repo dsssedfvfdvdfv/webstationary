@@ -7,6 +7,7 @@ myapp.controller("ctrlcart", function($scope, $http) {
 	$scope.cities = {};
 	$scope.districts = {};
 	$scope.ward = {};
+
 	$scope.info = {
 		numberphone: "",
 		adress: "",
@@ -21,7 +22,7 @@ myapp.controller("ctrlcart", function($scope, $http) {
 		ward: "",
 		email: "",
 		message: "",
-		paymentmethod: "",
+		paymentmethod: "true",
 		paymentstatus: ""
 	};
 
@@ -70,6 +71,7 @@ myapp.controller("ctrlcart", function($scope, $http) {
 			// Gửi yêu cầu GET đến API để lấy thông tin giỏ hàng của người dùng
 
 		},
+
 		// Hàm để cập nhật số lượng sản phẩm trong giỏ hàng
 		update(cartDetailID) {
 			var user = $("#usernameCart").text();
@@ -122,7 +124,8 @@ myapp.controller("ctrlcart", function($scope, $http) {
 			// Kiểm tra thông tin nhập vào (địa chỉ và số điện thoại)
 			var vnf_regex = /((09|03|07|08|05)+([0-9]{8})\b)/;
 			var mobile = $scope.info.numberphone;
-
+			var emailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+			var email = $scope.info.email;
 			if ($scope.info.street.length < 9) {
 				return Swal.fire(
 					'Error',
@@ -134,6 +137,12 @@ myapp.controller("ctrlcart", function($scope, $http) {
 				return Swal.fire(
 					'Error',
 					'Nhập đúng SDT để mình gọi chốt đơn nhé :)',
+					'error'
+				);
+			} else if (!emailPattern.test(email)) {
+				return Swal.fire(
+					'Error',
+					'Nhập đúng định dạng email :)',
 					'error'
 				);
 			}
@@ -184,6 +193,10 @@ myapp.controller("ctrlcart", function($scope, $http) {
 								// Gửi yêu cầu POST đến API để đặt hàng
 								$http.post(`http://localhost:8080/order/Order/`, dataOder).then(resOder => {
 									sessionStorage.setItem('orderid', resOder.data.orderID);
+									var amountElement = document.querySelector(".total");
+									var amountValue = parseFloat(amountElement.textContent.replace(/\D/g, ""));
+									document.cookie = 'total=' + amountValue;
+									document.cookie = 'id=' + resOder.data.orderID;
 									window.location.href = "/payment"
 
 									$scope.infoOrder = resOder.data;
@@ -217,11 +230,11 @@ myapp.controller("ctrlcart", function($scope, $http) {
 										console.log(error);
 									});
 
-									// Xóa sản phẩm trong giỏ hàng sau khi đặt hàng thành công
+									/*
 									for (var i = 0; i < $scope.orderdetail.length; i++) {
 										$scope.delete($scope.orderdetail[i].cartDetailID)
 									}
-
+									*/
 									$scope.viewItems.views();
 								}).catch(error => {
 									console.log(error);
@@ -246,13 +259,42 @@ myapp.controller("ctrlcart", function($scope, $http) {
 						paymentstatus: false,
 						status: 1,
 					}
-						var amountElement = document.querySelector(".total");
-						var amountValue = parseFloat(amountElement.textContent.replace(/\D/g, "")); 
+					var amountElement = document.querySelector(".total");
+					var amountValue = parseFloat(amountElement.textContent.replace(/\D/g, ""));
 					$http.post(`http://localhost:8080/order/Order/`, dataOder).then(resOder => {
-
 						window.location.href = "/payment";
 						sessionStorage.setItem('orderid', JSON.stringify(resOder));
-						sessionStorage.setItem('total',JSON.stringify(amountValue));
+						sessionStorage.setItem('total', JSON.stringify(amountValue));
+						document.cookie = 'total=' + amountValue;
+						document.cookie = 'id=' + resOder.data.orderID;
+						var cartItems = sessionStorage.getItem('cartItems');
+						if (cartItems) {
+							$scope.detail = JSON.parse(cartItems);
+						}
+						var dataallDetail = []
+						// Chuẩn bị dữ liệu để gửi yêu cầu POST đến API để đặt hàng chi tiết
+						for (var i = 0; i < $scope.detail.length; i++) {
+							var product = $scope.detail[i];
+							var dataDetail = {
+								orderDetailID: 0,
+								quantity: product.quantity,
+								unitPrice: (product.realPrice * product.quantity),
+								orders: resOder.data,
+								productOrder: $scope.detail[i].products,
+							}
+							dataallDetail.push(dataDetail)
+						}
+						$http.post(`http://localhost:8080/orderDetail/OrderDetailUser`, dataallDetail).then(resOderDetail => {
+							var datasend = resOder.data;
+
+
+						}).catch(error => {
+							console.log(error);
+						});
+
+
+
+						$scope.viewItems.views();
 					}).catch(error => {
 						console.log(error);
 					});
@@ -262,38 +304,36 @@ myapp.controller("ctrlcart", function($scope, $http) {
 			}
 		}
 	}
-	$scope.addPayment = function() {
+	function getCookie(name) {
+    var cookies = document.cookie.split(';');
+    for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i].trim();
+        if (cookie.indexOf(name + '=') === 0) {
+            return cookie.substring(name.length + 1, cookie.length);
+        }
+    }
+    return null;
+}
+
+	$scope.addPayment = function(orderid) {
 		var user = $("#usernameCart").text();
 		var amountElement = document.querySelector(".total");
-		var amountValue = parseFloat(amountElement.textContent.replace(/\D/g, "")); 
-		var order = sessionStorage.getItem('orderid');
+		var amountValue = parseFloat(amountElement.textContent.replace(/\D/g, ""));
+		var order = getCookie('id');
 		var orders = JSON.parse(order);
-		var id = orders.data.orderID;
-		if (!id) {
-			console.log("Mã đơn hàng không tồn tại trong session.");
-			return;
-		}
-
+	
 		var dataOrder = {
-			orderID: id,
-			amount: amountValue,
-			firstname: orders.data.firstname,
-			lastname: orders.data.lastname,
-			message: orders.data.message,
-			city: orders.data.city,
-			district: orders.data.district,
-			ward: orders.data.ward,
-			email: orders.data.email,
-			street: orders.data.street,
-			orderDate: new Date(),
-			phone: orders.data.phone,
+			orderid: orders, // Lấy orderID từ đối tượng orders
 			paymentmethod: $scope.info.paymentmethod,
 			paymentstatus: true,
+			amount:amountValue,
 			status: 1
 		};
 
+		console.log(dataOrder);
 		// Gửi yêu cầu PUT để cập nhật đơn hàng
-		$http.put(`http://localhost:8080/order/Order/${id}`, dataOrder).then(response => {
+	
+		$http.put(`http://localhost:8080/order/Orderupdate/${orders}`, dataOrder).then(response => {
 			Swal.fire(
 				'Đặt Hàng Thành Công',
 				'Cảm ơn bạn đã tin tưởng Shop TVTS :)',
@@ -302,11 +342,12 @@ myapp.controller("ctrlcart", function($scope, $http) {
 			setTimeout(function() {
 				window.location.href = "/";
 			}, 2000); // Chuyển trang sau 2 giây
+
 		}).catch(error => {
 			console.log("Lỗi khi cập nhật đơn hàng:", error);
 		});
 
-
+	
 	}
 	// Hàm để xóa sản phẩm khỏi giỏ hàng
 	$scope.delete = function(cartDetailID) {

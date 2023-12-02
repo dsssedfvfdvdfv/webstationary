@@ -31,7 +31,9 @@
   <link rel="stylesheet" href="/User/css/custom.css">
   <link type="module" rel="stylesheet" href="/node_modules/sweetalert2/dist/sweetalert2.css">
   <!-- Modernizr JS -->
- 
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.js"></script>
+   <script th:src="@{/User/userJS/detailproduct.js}"></script>
   <script src="/User/js/vendor/modernizr-2.8.3.min.js"></script>
   <style>
     .check {
@@ -104,11 +106,15 @@
   <!-- Main js file that contents all jQuery plugins activation. -->
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.js"></script>
+ 
   <script th:src="@{/User/js/main.js}"></script>
-  <script th:src="@{/User/userJS/Homeproduct.js}"></script>
+  
+  <script th:src="@{/User/userJS/detailproduct.js}"></script>
+  <script th:src="@{/User/userJS/Homeproduct.js}"></script> 
   <script th:src="@{/User/userJS/cartItem.js}"></script>
   <script th:src="@{/User/userJS/order.js}"></script>
   <script th:src="@{/User/userJS/myorder.js}"></script>
+  
 </body>
-
+ 
 </html>

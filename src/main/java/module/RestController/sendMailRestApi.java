@@ -126,7 +126,7 @@ public class sendMailRestApi {
 						+ "        <h2 style=\"text-align: center; padding: 20px; font-family: Arial, Helvetica, sans-serif;\">"
 						+ "TVTS" + "</h2>\r\n" + "        <br>\r\n"
 						+ "        <div style=\"margin-left: 10px; margin-right: 10px;\">\r\n"
-						+ "            <p><b> Xin chào,</b> <i> " + order.getAccountoder().getName() + "</i> !</p>\r\n"
+						+ "         <p><b> Xin chào,</b> <i> " + order.getFirstname()+" "+order.getLastname() + "</i> !</p>\r\n"
 						+ "            <br>\r\n" + "            <p style=\"font-weight: bolder;\">" + trangthai + " (Mã đơn hàng: " +order.getOrderID() +")"
 						+ "</p>\r\n" + "            <hr>");
 		for (OrderDetail item : list) {
@@ -149,6 +149,6 @@ public class sendMailRestApi {
 				+ "                <p style=\"font-family: Arial, Helvetica, sans-serif; font-weight: bold;\"></p>\r\n"
 				+ "            </div> \r\n" + "        </div>\r\n" + "    </div>");
 
-		emaildao.sendmail(order.getAccountoder().getEmail(), trangthai, content.toString());
+		emaildao.sendmail(order.getEmail(), trangthai, content.toString());
 	}
 }

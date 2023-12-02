@@ -35,7 +35,10 @@ public class StatisticalRestController {
 	public ResponseEntity<List<Order>> getAllOrder() {
 		return ResponseEntity.ok(dao.findAllDesc());
 	}
-
+	@GetMapping("confirmss")
+	public ResponseEntity<List<Order>> getAllOrderDelivered() {
+		return ResponseEntity.ok(dao.findAllDescOrder());
+	}
 	@GetMapping("turnoverday")
 	public ResponseEntity<List<Object[]>> getByDay() {
 		return ResponseEntity.ok(dao.findStatisticalByDay());
@@ -60,7 +63,7 @@ public class StatisticalRestController {
 	public ResponseEntity<List<Object[]>> getTop5buyer() {
 		return ResponseEntity.ok(dao.top5buyer());
 	}
-
+	
 	@GetMapping("infoDetail/{orderid}")
 	public ResponseEntity<List<OrderDetail>> getInfo(@PathVariable("orderid") Integer orderDetailId) {
 		

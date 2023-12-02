@@ -1,6 +1,7 @@
 package module.Services;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import module.Config.VNPayConfig;
@@ -11,14 +12,33 @@ import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 @Service
 public class VNPayService {
+	@Autowired
+	HttpServletRequest request;
 	public String createOrder(int total, String orderInfor, String urlReturn){
+		 Cookie[] cookies = request.getCookies();
+		    String orderTotal = ""; 
+		    
+		    if (cookies != null) {
+		        for (Cookie cookie : cookies) {
+		            if ("id".equals(cookie.getName())) {
+		             
+		                try {
+		                    orderTotal = cookie.getValue();
+		                } catch (NumberFormatException e) {
+		                   
+		                }
+		            }
+		        }
+		    }
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
-        String vnp_TxnRef = VNPayConfig.getRandomNumber(8);
+        String vnp_TxnRef = orderTotal;
+
         String vnp_IpAddr = "127.0.0.1";
         String vnp_TmnCode = VNPayConfig.vnp_TmnCode;
         String orderType = "order";
@@ -42,6 +62,7 @@ public class VNPayService {
         vnp_Params.put("vnp_IpAddr", vnp_IpAddr);
 
         Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
+        System.out.print(cld);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
         String vnp_CreateDate = formatter.format(cld.getTime());
         vnp_Params.put("vnp_CreateDate", vnp_CreateDate);
@@ -81,6 +102,7 @@ public class VNPayService {
         String vnp_SecureHash = VNPayConfig.hmacSHA512(VNPayConfig.vnp_HashSecret, hashData.toString());
         queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
         String paymentUrl = VNPayConfig.vnp_PayUrl + "?" + queryUrl;
+        
         return paymentUrl;
     }
 

@@ -1,6 +1,7 @@
 package module.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -66,14 +67,27 @@ public class OrderRestController {
 	
 
 
-	@PutMapping("/Order/{orderid}")
-	public ResponseEntity<Order> Put(@PathVariable("orderid") Integer orderid, @RequestBody Order order) {
-		if (!oDao.existsById(orderid)) {
-			return ResponseEntity.notFound().build();
-		}
-		oDao.save(order);
-		return ResponseEntity.ok(order);
+	@PutMapping("/Orderupdate/{orderid}")
+	public ResponseEntity<Order> Put(@PathVariable("orderid") Integer orderid, @RequestBody Order updatedOrder) {
+	    Optional<Order> existingOrderOptional = oDao.findById(orderid);
+	    System.out.print(orderid);
+	    if (existingOrderOptional.isPresent()) {
+	        Order existingOrder = existingOrderOptional.get();
+
+	        existingOrder.setAmount(updatedOrder.getAmount());
+	        existingOrder.setPaymentmethod(updatedOrder.getPaymentmethod());
+	        existingOrder.setPaymentstatus(updatedOrder.getPaymentstatus());
+	        existingOrder.setStatus(updatedOrder.getStatus());
+
+	        // Lưu lại đơn hàng đã cập nhật
+	        oDao.save(existingOrder);
+	        
+	        return ResponseEntity.ok(existingOrder);
+	    } else {
+	        return ResponseEntity.notFound().build();
+	    }
 	}
+
 
 	@DeleteMapping("/Order/{orderid}")
 	public ResponseEntity<Void> Delete(@PathVariable("orderid") Integer orderid) {

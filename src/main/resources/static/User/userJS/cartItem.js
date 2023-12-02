@@ -1,4 +1,4 @@
-myapp.controller("ctrlcartDetail", function($scope, $http) {
+myapp.controller("ctrlcartDetail", function($scope, $http, $window) {
 	// Khởi tạo các biến dữ liệu
 	$scope.detail = []; // Danh sách chi tiết sản phẩm trong giỏ hàng
 	$scope.items = []; // Danh sách sản phẩm
@@ -26,15 +26,15 @@ myapp.controller("ctrlcartDetail", function($scope, $http) {
 				console.log($scope.itemcart);
 				$http.get(`http://localhost:8080/CartItem/cartItemDetail/${$scope.itemcart.cartID}`).then(rescartDetail => {
 					$scope.detail = rescartDetail.data; // Lưu danh sách chi tiết sản phẩm vào biến $scope.detail
-						
+
 				});
 			});
-			
+
 		} else {
-				
+
 			if (cartItems) {
-				$scope.detail = JSON.parse(cartItems);	
-				console.log($scope.detail);						
+				$scope.detail = JSON.parse(cartItems);
+				console.log($scope.detail);
 			} else {
 				console.log("Không tìm thấy sản phẩm nào trong sessionStorage");
 			}
@@ -51,11 +51,11 @@ myapp.controller("ctrlcartDetail", function($scope, $http) {
 			var url = `http://localhost:8080/CartItem/cartItemDetail/${cartDetailID}`;
 			$http.delete(url).then(resp => {
 				var index = $scope.detail.findIndex(item => item.cartDetailID == cartDetailID);
-				$scope.detail.splice(index, 1);		
-				
+				$scope.detail.splice(index, 1);
+
 			}).catch(error => {
-    console.error('Error:', error); // Log the error to the console
-});
+				console.error('Error:', error); // Log the error to the console
+			});
 		} else {
 			var index = $scope.detail.findIndex(item => item.cartDetailID == cartDetailID);
 			if (index !== -1) {
@@ -77,7 +77,23 @@ myapp.controller("ctrlcartDetail", function($scope, $http) {
 
 		}
 	}
-	// Hàm pagecart để phân trang danh sách sản phẩm trong giỏ hàng
+
+	$scope.clear = function() {
+		var user = $("#usernameCart").text();
+		if (user) {
+			for (var i = 0; i < $scope.detail.length; i++) {
+				$scope.delete($scope.detail[i].cartDetailID)
+			}
+		}
+		sessionStorage.clear();
+		Toast.fire({
+			icon: 'success',
+			title: 'Đã xóa tất cả sản phẩm',
+		})
+
+		$window.location.reload();
+	}
+
 	$scope.pagecart = {
 		page: 0,
 		size: 3,
@@ -121,16 +137,7 @@ myapp.controller("ctrlcartDetail", function($scope, $http) {
 		uploadIMG
 			.then(snapshot => snapshot.ref.getDownloadURL()) // Lấy đường dẫn URL của tập tin đã tải lên
 			.then(url => {
-				console.log(url); // Hiển thị URL của ảnh trong console
-				// Sử dụng thư viện SweetAlert2 để hiển thị thông báo thành công với ảnh và tiêu đề
-				Swal.fire({
-					title: 'Upload thành công',
-					text: '',
-					imageUrl: url, // Đường dẫn ảnh để hiển thị
-					imageWidth: 400,
-					imageHeight: 400,
-					imageAlt: 'Custom image',
-				});
+
 			})
 			.catch(error => {
 				// Nếu có lỗi, hiển thị thông báo lỗi bằng thư viện SweetAlert2
@@ -221,11 +228,15 @@ myapp.controller("ctrlcartDetail", function($scope, $http) {
 	// Hàm update để cập nhật thông tin người dùng
 	$scope.update = function() {
 		var item = angular.copy($scope.form); // Tạo bản sao của thông tin người dùng để cập nhật
-		var name = document.getElementById("photo").value.split('\\').pop(); // Lấy tên tập tin ảnh từ đường dẫn
+		var name = document.getElementById("photo");
+		var value = name.value;
+		console.log(value);
 
-		item.photo = name; // Gán tên ảnh mới cho thông tin người dùng
+		item.photo = value; // Gán tên ảnh mới cho thông tin người dùng
 		var url = `http://localhost:8080/restAccount/accounts/${$scope.form.email}`;
+		 
 		$http.put(url, item).then(resp => {
+			console.log(name);
 			Toast.fire({
 				icon: 'success',
 				title: 'Cập Nhật thành công'
@@ -236,5 +247,6 @@ myapp.controller("ctrlcartDetail", function($scope, $http) {
 		}).catch(error => {
 
 		});
+		
 	}
 });

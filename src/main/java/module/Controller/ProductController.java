@@ -2,6 +2,7 @@ package module.Controller;
 
 import java.util.Optional;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -13,9 +14,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+
+
 import module.DAO.CartDetailDAO;
 import module.DAO.CartItemDAO;
+import module.DAO.OrderDAO;
 import module.DAO.ProductDAO;
+import module.Domain.Order;
 import module.Domain.Products;
 
 @Controller
@@ -31,6 +36,12 @@ public class ProductController {
 
 	@Autowired
 	HttpServletRequest res;
+
+	@Autowired
+	OrderDAO oDao;
+	
+	@Autowired
+	private module.Services.VNPayService vnPayService;
 
 	@RequestMapping({ "home", "home/user" })
 	public String getAll(Model model) {
@@ -100,24 +111,63 @@ public class ProductController {
 		return "Usersform/cart";
 	}
 	@RequestMapping("payment")
-	public String payment() {
+	public String payment(HttpServletRequest request) {
+		
 		return "Usersform/payment";
 	}
 	@RequestMapping("order")
 	public String order() {
 		return "Usersform/order";
 	}
+	
+	@RequestMapping("productdetail")
+	public String productdetail() {
+		return"Usersform/productdetail";
+	}
 	@GetMapping("/thank")
-	public String thank(HttpServletRequest request,@SessionAttribute("cartItems")String cartItems) {
-	 
-	    HttpSession session = request.getSession();
-	   
-
-	  
-	    if (cartItems != null) {
-	    	session.removeAttribute("cartItems");
-	    }
- 
-	    return "Usersform/thank";
+	public String thank(HttpServletRequest request) {
+		int paymentStatus = vnPayService.orderReturn(request);
+		  Cookie[] cookies = request.getCookies();
+		    double orderTotal = 0; 
+		    String idhoadon = ""; 
+		    if (cookies != null) {
+		        for (Cookie cookie : cookies) {
+		            if ("total".equals(cookie.getName())) {
+		             
+		                try {
+		                    orderTotal = Integer.parseInt(cookie.getValue());
+		                } catch (NumberFormatException e) {
+		                   
+		                }
+		            }
+		        }
+		    }
+		    if (cookies != null) {
+		        for (Cookie cookie : cookies) {
+		            if ("id".equals(cookie.getName())) {
+		             
+		                try {
+		                    idhoadon = cookie.getValue();
+		                } catch (NumberFormatException e) {
+		                   
+		                }
+		            }
+		        }
+		    }
+		if(paymentStatus==1) {
+			  Integer id = Integer.parseInt(idhoadon);						 
+			boolean paymentmethod=false;
+			boolean paymentstatus=true;	
+			int status=1;
+			oDao.updateOrder(orderTotal, paymentmethod, paymentstatus,status, id);
+			return "Usersform/thank";
+		}else {
+			 Integer id = Integer.parseInt(idhoadon);		
+			boolean paymentmethod=false;
+			boolean paymentstatus=false;
+			int status=3;
+			oDao.updateOrder(orderTotal, paymentmethod, paymentstatus,status, id);
+			return  "Usersform/home";
+		}					    
 	}
 }

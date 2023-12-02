@@ -10,6 +10,13 @@ import module.Domain.Products;
 @Repository
 public interface ProductDAO extends JpaRepository<Products, Integer> {
 
-	@Query(value = "select * from products where categoryid = ?", nativeQuery = true)
+	@Query(value = "select * from products where categoryid = ? and status=1 ", nativeQuery = true)
 	List<Products> findByCategory(Integer categoryid);
+	
+	
+	@Query(value = "select * from products where status = 1",nativeQuery = true)
+	List<Products>findAllTrue();
+	
+	@Query(value = "select * from products where status = 1 and hot = 1",nativeQuery = true)
+	List<Products>findAllfeature();
 }
