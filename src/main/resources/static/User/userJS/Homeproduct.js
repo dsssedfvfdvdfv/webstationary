@@ -21,18 +21,18 @@ myapp.controller("ctrlHome", function($scope, $http) {
 	$scope.load_all = function() {
 		$http.get(`http://localhost:8080/restProduct/productstrue`).then(resp => {
 			$scope.items = resp.data; // Gán dữ liệu sản phẩm từ phản hồi server vào biến $scope.items
-		
+
 			/*$scope.itemss.forEach(item => {
 				item.enteredDate = new Date(item.enteredDate); // Chuyển đổi định dạng ngày thành đối tượng ngày
 			});
 			*/
 		});
 	}
-	
+
 	$scope.feature = function() {
 		$http.get(`http://localhost:8080/restProduct/productsfeature`).then(resp => {
 			$scope.itemss = resp.data; // Gán dữ liệu sản phẩm từ phản hồi server vào biến $scope.items
-			
+
 			/*$scope.itemss.forEach(item => {
 				item.enteredDate = new Date(item.enteredDate); // Chuyển đổi định dạng ngày thành đối tượng ngày
 			});
@@ -63,21 +63,21 @@ myapp.controller("ctrlHome", function($scope, $http) {
 		var url = `${hostHome}/${productID}`;
 		$http.get(url).then(resp => {
 			$scope.show = resp.data;	
-			/*		
-			window.location.href='/productdetail';
+			/* 		
+			window.location.href = '/productdetail';
 			localStorage.setItem('showData', JSON.stringify($scope.show));
 			*/
 		}).catch(error => console.log("Error", error));
 	}
 
-	
-	
+
+
 	/*Hàm loadcate để tải danh sách danh mục sản phẩm:*/
 	$scope.loadcate = function() {
-		var url = `http://localhost:8080/categoryRest/categories`
+		var url = `http://localhost:8080/categoryRest/categoriestrue`
 		$http.get(url).then(resp => {
 			$scope.itemcate = resp.data; // Gán dữ liệu danh mục sản phẩm từ phản hồi server vào biến $scope.itemcate
-			
+
 		}).catch(error => {
 
 		});
@@ -247,6 +247,78 @@ myapp.controller("ctrlHome", function($scope, $http) {
 
 		}
 	}
+	
+	
+	//hàm quản lý wishlist sản phẩm
+	           $scope.wishList = {
+
+                 add(productID){
+					  console.log("chạy wishlist thành công");
+                 //wishList items
+                var user = $("#username").text();
+                  console.log("chạy tới dòng 257");
+                   console.log("user tại dòng 257 là "+user);
+                var urlwishLists = "http://localhost:8080/wishList/wishLists";
+                console.log("user tại dòng 259 là "+user);
+                $http.get(`${urlwishLists}/${user}`).then(resitem => {
+					console.log("user tại dòng 261 là "+user);
+                $scope.itemwishList = resitem.data;
+                console.log($scope.itemwishList);
+                   console.log("lay user thành công");
+                //product
+                var urlproduct= `${hostHome}/${productID}`;
+
+                $http.get(urlproduct).then(resproduct => {
+          
+                    $scope.product = resproduct.data;
+                    console.log($scope.product);
+//wishlist
+                var urlpost = `http://localhost:8080/wishList/wishListDetail`;
+                var data = {
+                  wishlist_detailid:0,
+                
+                  realPrice: $scope.getAmount($scope.product.unitPrice,$scope.product.discount),
+                  products:  $scope.product,
+                  wishListItems:  $scope.itemwishList
+                }
+                  console.log(data)
+                  var check =false;
+                  $http.get(`http://localhost:8080/wishList/wishListDetail/${data.wishListItems.wishlist_id}`).then(resitem => {
+                         $scope.checkProduct = resitem.data;
+                         for(var i =0; i<$scope.checkProduct.length; i++){
+                         console.log($scope.checkProduct[i].products);
+                         if($scope.product.productID == $scope.checkProduct[i].products.productID){
+                         check =true;
+                        }
+                     }
+                  if(check ==true){
+                     Toast.fire({
+                      icon: 'warning',
+                     title: 'Sản phẩm: ' + $scope.product.name +' đã được thêm vào mục yêu thích!',
+                     })
+                }
+                  else{
+					  console.log(data)
+                     $http.post(urlpost,data).then(function(res){
+                         Toast.fire({
+                             icon: 'success',
+                             title: 'Đã thêm sản phẩm yêu thích thành công ' + $scope.product.name,
+                         })
+                         console.log($scope.product);
+                      
+                    },function(error){
+                      Swal.fire(
+                          'Error',
+                          'Thêm thất bại, Bạn hãy điền đúng thông tin nhé :(',
+                          'error'
+                        )
+                      })
+                      }
+                 })
+             });
+         });
+    }
+}
 	/*Phân trang danh sách sản phẩm:*/
 	$scope.page = {
 		page: 0,
@@ -278,6 +350,24 @@ myapp.controller("ctrlHome", function($scope, $http) {
 		loadmore() {
 			this.size += 4; // Tăng số lượng sản phẩm trên mỗi trang
 			$scope.load_all(); // Tải lại danh sách sản phẩm
+		},
+		first() {
+			this.page = 0;
+		},
+		prev() {
+			this.page--;
+			if (this.page < 0) {
+				this.last();
+			}
+		},
+		next() {
+			this.page++;
+			if (this.page >= this.count) {
+				this.first();
+			}
+		},
+		last() {
+			this.page = this.count - 1;
 		}
 	}
 	/*Gọi hàm để tải dữ liệu ban đầu:*/

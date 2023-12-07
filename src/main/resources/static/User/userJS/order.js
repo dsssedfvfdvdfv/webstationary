@@ -46,6 +46,7 @@ myapp.controller("ctrlcart", function($scope, $http) {
 								var product = $scope.detail[i];
 								total += (product.realPrice * product.quantity);
 							}
+							
 							return total;
 						}
 					});
@@ -65,6 +66,7 @@ myapp.controller("ctrlcart", function($scope, $http) {
 						var product = $scope.detail[i];
 						total += (product.realPrice * product.quantity);
 					}
+					sessionStorage.setItem('total',total);
 					return total;
 				}
 			}
@@ -305,15 +307,15 @@ myapp.controller("ctrlcart", function($scope, $http) {
 		}
 	}
 	function getCookie(name) {
-    var cookies = document.cookie.split(';');
-    for (var i = 0; i < cookies.length; i++) {
-        var cookie = cookies[i].trim();
-        if (cookie.indexOf(name + '=') === 0) {
-            return cookie.substring(name.length + 1, cookie.length);
-        }
-    }
-    return null;
-}
+		var cookies = document.cookie.split(';');
+		for (var i = 0; i < cookies.length; i++) {
+			var cookie = cookies[i].trim();
+			if (cookie.indexOf(name + '=') === 0) {
+				return cookie.substring(name.length + 1, cookie.length);
+			}
+		}
+		return null;
+	}
 
 	$scope.addPayment = function(orderid) {
 		var user = $("#usernameCart").text();
@@ -321,18 +323,18 @@ myapp.controller("ctrlcart", function($scope, $http) {
 		var amountValue = parseFloat(amountElement.textContent.replace(/\D/g, ""));
 		var order = getCookie('id');
 		var orders = JSON.parse(order);
-	
+
 		var dataOrder = {
 			orderid: orders, // Lấy orderID từ đối tượng orders
 			paymentmethod: $scope.info.paymentmethod,
-			paymentstatus: true,
-			amount:amountValue,
+			paymentstatus: false,
+			amount: amountValue,
 			status: 1
 		};
 
 		console.log(dataOrder);
 		// Gửi yêu cầu PUT để cập nhật đơn hàng
-	
+
 		$http.put(`http://localhost:8080/order/Orderupdate/${orders}`, dataOrder).then(response => {
 			Swal.fire(
 				'Đặt Hàng Thành Công',
@@ -347,7 +349,7 @@ myapp.controller("ctrlcart", function($scope, $http) {
 			console.log("Lỗi khi cập nhật đơn hàng:", error);
 		});
 
-	
+
 	}
 	// Hàm để xóa sản phẩm khỏi giỏ hàng
 	$scope.delete = function(cartDetailID) {
@@ -458,7 +460,9 @@ myapp.controller("ctrlcart", function($scope, $http) {
 				}
 			}).then(function(response) {
 				$scope.districts = response.data;
-				getWards(id);
+				console.log(response);
+				getWards(cityId);
+
 			}, function(error) {
 				console.log('Error:', error);
 			});
@@ -478,17 +482,49 @@ myapp.controller("ctrlcart", function($scope, $http) {
 			}).then(function(response) {
 				$scope.ward = response.data;
 				getDistricts(id);
+				caculatorFee(id)
 			}, function(error) {
 				console.log('Error:', error);
 			});
 		}
 
 	}
+		
+	
+
+	function caculatorFee(id) {
+		if (id) {
+			$http({
+				method: 'GET',
+				url: ' https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee',
+				headers: {
+					'Token': token
+				}, params: {
+					service_type_id:"2",
+					insurance_value:sessionStorage.getItem('total'),
+					coupon: null,
+					from_district_id: "1572",
+					to_district_id: id,
+					height: "0",
+					length: "0",
+					weight: "1000",
+					width: "0"
+				}
+			}).then(function(response) {
+				$scope.fee = response.data;
+				$scope.totalfee=$scope.fee.data.total;
+				console.log($scope.fee.data.total);
+			}, function(error) {
+				console.log('Error:', error);
+			});
+		}
+	}
 
 
 
 
-	getDistricts();
+	
+	caculatorFee();
 	getCities();
 
 	$scope.$watch('info.ct', function(newCityName) {
@@ -514,7 +550,6 @@ myapp.controller("ctrlcart", function($scope, $http) {
 
 			if (selectedDistrict) {
 				$scope.info.city = selectedDistrict.ProvinceID;
-				// Gọi hàm để lấy danh sách xã/phường dựa trên quận/huyện đã chọn
 				getWards(selectedDistrict.DistrictID);
 			}
 		} else {

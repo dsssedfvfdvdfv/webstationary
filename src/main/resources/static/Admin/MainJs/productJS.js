@@ -18,7 +18,7 @@ app.controller("ctrlProduct", function($scope, $http) {
 		});
 
 		//category
-		var url = `${hostCate}`;
+		var url = `http://localhost:8080/categoryRest/categoriestrue`;
 		$http.get(url).then(resp => {
 			$scope.cates = resp.data;
 		});
@@ -241,7 +241,19 @@ app.controller("ctrlProduct", function($scope, $http) {
 			}
 		}).catch(error => console.log("Error", error));
 	}
-
+	
+	$scope.search=function(name){
+		var url="http://localhost:8080/restProduct/products/search";
+		if(name){
+			var urlsearch=`${url}/${name}`;
+			$http.get(urlsearch).then(resp => {
+			$scope.items = resp.data;			
+		}).catch(error => console.log("Error", error));
+		}else{
+				window.location.reload();
+		}
+		
+	}
 	//---------------------------------------------------------------
 	$scope.pager = {
 		page: 0,

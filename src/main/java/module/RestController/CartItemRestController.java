@@ -64,6 +64,7 @@ public class CartItemRestController {
 		if (Dao.existsById(cartitem.getCartID())) {
 			return ResponseEntity.badRequest().build();
 		}
+		System.out.print(cartitem);
 		Dao.save(cartitem);
 		return ResponseEntity.ok(cartitem);
 	}
@@ -73,6 +74,7 @@ public class CartItemRestController {
 		if (dDao.existsById(cartItemDetail.getCartDetailID())) {
 			return ResponseEntity.badRequest().build();
 		}
+		System.out.print(cartItemDetail);
 		dDao.save(cartItemDetail);
 		return ResponseEntity.ok(cartItemDetail);
 	}

@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
-<title>Login And Registered</title>
+<title>Đăng nhập và đăng ký</title>
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -229,9 +229,9 @@
 						<div class="col-md-6 col-md-offset-3">
 							<ul class="login__register__menu" role="tablist">
 								<li role="presentation" class="login active"><a
-									href="/#login" role="tab" data-toggle="tab">Login</a></li>
+									href="/#login" role="tab" data-toggle="tab">Đăng nhập</a></li>
 								<li role="presentation" class="register"><a
-									href="/#registerlogin" role="tab" data-toggle="tab">Register</a></li>
+									href="/#registerlogin" role="tab" data-toggle="tab">Đăng ký</a></li>
 							</ul>
 						</div>
 					</div>
@@ -243,17 +243,16 @@
 								<div id="login" role="tabpanel"
 									class="single__tabs__panel tab-pane fade in active">
 									<form class="login" th:action="@{/auth/login}" method="post">
-										<input type="text" name="username" placeholder="User Name*">
-										<input type="password" name="password" placeholder="Password*">
+										<input type="text" name="username" placeholder="Tài khoản*">
+										<input type="password" name="password" placeholder="Mật khẩu*">
 
 										<div class="tabs__checkbox">
 
 											<span class="forget"><a href="" data-toggle="modal"
-												data-target="#OTPForgotModal" ng-click="resetotp()">Forget
-													Pasword?</a></span>
+												data-target="#OTPForgotModal" ng-click="resetotp()">Quên mật khẩu?</a></span>
 										</div>
 										<div class="htc__login__btn mt--30">
-											<button class="btn btn-block  btn-danger " type="submit">Login</button>
+											<button class="btn btn-block  btn-danger " type="submit">Đăng nhập</button>
 											<div class="center-block"
 												style="margin-top: 30px; color: red; font-size: x-large;">[[${message}]]
 											</div>
@@ -302,7 +301,7 @@
 										</div>
 										<!-- .modal-dialog -->
 									</div>
-									<div class="htc__social__connect">
+									<!-- <div class="htc__social__connect">
 										<h2>Or Login With</h2>
 										<ul class="htc__soaial__list">
 											<li><a class="bg--facebook"
@@ -313,7 +312,8 @@
 												href="/oauth2/authorization/google" title="Google"><i
 													class="zmdi zmdi-google"></i></a></li>
 										</ul>
-									</div>
+									</div> -->
+									
 								</div>
 								<!-- End Single Content -->
 								<!-- Start Single Content -->
@@ -327,16 +327,16 @@
 											ng-show="formAccountRegis.txtemails.$invalid" class="check">Hãy
 											nhập đúng Email của bạn</span> <input type="password"
 											ng-model="formregis.password" name="txtpasswords"
-											minlength="6" placeholder="Password*"><br> <span
+											minlength="6" placeholder="Mật khẩu*"><br> <span
 											ng-show="formAccountRegis.txtpasswords.$invalid"
 											class="check">Password cần hơn 6 kí tự</span> <br> <input
 											type="text" ng-model="formregis.name" name="txtnames"
-											minlength="4" placeholder="Name*"> <span
+											minlength="4" placeholder="Tên*"> <span
 											ng-show="formAccountRegis.txtnames.$invalid" class="check">Hãy
 											nhập đúng họ và tên của bạn</span> <br> <br> <br>
 										<button class="btn btn-block  btn-dark"
 											ng-if="formregis.email.length <= 11 || formregis.password.length <= 5 || formregis.name.length <= 3"
-											type="submit">register</button>
+											type="submit">Đăng ký</button>
 										<button class="btn btn-block  btn-danger "
 											ng-if="formregis.email.length > 11  && formregis.name.length > 3"
 											ng-click="sendMail()" data-toggle="modal"
@@ -373,8 +373,7 @@
 										<!-- .modal-dialog -->
 									</div>
 									<!-- END Modal -->
-
-									<div class="htc__social__connect">
+									<!-- <div class="htc__social__connect">
 										<h2>Or Login With</h2>
 										<ul class="htc__soaial__list">
 											<li><a class="bg--facebook"
@@ -384,7 +383,8 @@
 												href="/oauth2/authorization/google" title="Google"><i
 													class="zmdi zmdi-google"></i></a></li>
 										</ul>
-									</div>
+									</div> -->
+									
 								</div>
 								<!-- End Single Content -->
 							</div>

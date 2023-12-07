@@ -78,7 +78,7 @@ public class AccountRestController {
 		if (aDao.existsById(account.getEmail())) {
 			return ResponseEntity.badRequest().build();
 		}
-		
+		System.out.print(account);
 		aDao.save(account);
 
 		return ResponseEntity.ok(account);

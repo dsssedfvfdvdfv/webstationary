@@ -48,9 +48,7 @@ public class Account implements Serializable {
 	Set<AccountRoles> accountRoles;
 
 	@JsonIgnore
-	@OneToMany(mappedBy = "accountoder", fetch = FetchType.LAZY)
-	
-	@OnDelete(action = OnDeleteAction.CASCADE)
+	@OneToMany(mappedBy = "accountoder", fetch = FetchType.LAZY)	
 	Set<Order> order;
 
 	@JsonIgnore
@@ -58,5 +56,11 @@ public class Account implements Serializable {
 	@Cascade(value = { CascadeType.SAVE_UPDATE })
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	Set<CartItem> cartitem;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "accountWishlist", fetch = FetchType.LAZY)
+	@Cascade(value = { CascadeType.SAVE_UPDATE })
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	Set<Wishlist> wishlist;
 
 }

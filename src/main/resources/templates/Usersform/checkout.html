@@ -15,11 +15,11 @@
 				<div class="row">
 					<div class="col-xs-12">
 						<div class="bradcaump__inner text-center">
-							<h2 class="bradcaump-title">Checkout</h2>
+							<h2 class="bradcaump-title">Thanh toán</h2>
 							<nav class="bradcaump-inner">
-								<a class="breadcrumb-item" href="/">Home</a> <span
+								<a class="breadcrumb-item" href="/">Trang chủ</a> <span
 									class="brd-separetor">/</span> <span
-									class="breadcrumb-item active">Checkout</span>
+									class="breadcrumb-item active">Thanh toán</span>
 							</nav>
 						</div>
 					</div>
@@ -41,56 +41,108 @@
 								<div class="checkout-form">
 									<h2 class="section-title-3">Chi tiết hóa đơn</h2>
 									<div class="checkout-form-inner">
-										<div class="single-checkout-box">
-											<input type="text" placeholder="Họ" ng-model="info.lastname">
-											<input type="text" placeholder="Tên"
-												ng-model="info.firstname">
-										</div>
-										<div class="single-checkout-box">
-											<input type="email" name="email" placeholder="Email*" ng-model="info.email">
-											
-											 <input
-												type="text" ng-model="info.numberphone" name="txtphone"
-												placeholder="Number Phone*"> 
-										</div>
-										<div class="single-checkout-box">
-											<textarea name="message" placeholder="Message*" ng-model="info.message"></textarea>
-										</div>
-										<div class="single-checkout-box" style="height:80px">
-											<div class="single-checkout-box select-option mt--40">
+										<div class="single-checkout-box"
+											style="display: inline-flex; width: 100%">
+											<div style="width: 50%; margin-right: 20px">
+												<div style="width: 33px">
+													<label for="lastname">Họ:</label>
+												</div>
+												<input type="text" id="lastname" placeholder="Họ"
+													ng-model="info.lastname" style="width: 100%">
+											</div>
 
-												<select ng-model="info.ct">
-													<option value="">Chọn thành phố</option>
-													<option ng-repeat="city in cities.data"
-														value="{{city.ProvinceName}}">{{city.ProvinceName}}</option>
-												</select> <select style="float: right; margin: 0; width: 47.5%;"
-													ng-model="info.district">
-													<option value="">Chọn quận huyện</option>
-													<option ng-repeat="city in districts.data"
-														value="{{city.DistrictName}}">{{city.DistrictName}}</option>
-												</select>
+											<div style="width: 50%">
+												<div style="width: 33px">
+													<label for="firstname">Tên:</label>
+												</div>
+												<input type="text" id="firstname" placeholder="Tên"
+													ng-model="info.firstname" style="width: 100%">
+											</div>
 
+
+										</div>
+
+										<div class="single-checkout-box"
+											style="display: inline-flex; width: 100%">
+											<div style="width: 50%; margin-right: 20px">
+												<div style="width: 33px">
+													<label for="email">Email:</label>
+												</div>
+												<input type="email" name="email" placeholder="Email*"
+													ng-model="info.email" style="width: 100%">
+											</div>
+											<div style="width: 50%">
+												<div style="width: 120px">
+													<label for="phone">Số điện thoại:</label>
+												</div>
+												<input type="text" ng-model="info.numberphone"
+													name="txtphone" placeholder="Số điện thoại*"
+													style="width: 100%">
+											</div>
+
+
+										</div>
+										<div class="single-checkout-box">
+											<div style="width: 80px">
+												<label for="note">Ghi chú:</label>
+											</div>
+											<textarea name="message" placeholder="Message*"
+												ng-model="info.message"></textarea>
+										</div>
+										<div class="single-checkout-box">
+											<div class="single-checkout-box select-option mt--40"
+												style="display: inline-flex; width: 100%">
+												<div style="width: 50%; margin-right: 20px">
+													<div style="width: 100px">
+														<label for="city">Thành phố:</label>
+													</div>
+													<select ng-model="info.ct" style="width: 100%">
+														<option value="">Chọn thành phố</option>
+														<option ng-repeat="city in cities.data"
+															value="{{city.ProvinceName}}">{{city.ProvinceName}}</option>
+													</select>
+												</div>
+												<div style="width: 50%">
+													<div style="width: 120px">
+														<label for="">Quận/huyện:</label>
+													</div>
+													<select style="float: right; margin: 0; width: 100%;"
+														ng-model="info.district">
+														<option value="">Chọn quận huyện</option>
+														<option ng-repeat="city in districts.data"
+															value="{{city.DistrictName}}">{{city.DistrictName}}</option>
+													</select>
+												</div>
 											</div>
 										</div>
 
 
-										<div class="single-checkout-box">
-
-											<select ng-model="info.ward">
-												<option value="">Chọn phường xã</option>
-												<option ng-repeat="city in ward.data"
-													value="{{city.WardName}}">{{city.WardName}}</option>
-											</select> <input style="float: right" type="text" placeholder="Địa chỉ"
-												ng-model="info.street">
-										</div>
-
-
+										<div class="single-checkout-box"
+											style="display: inline-flex; width: 100%; margin-top: 40px">
+											<div style="width: 50%; margin-right: 20px">
+												<div style="width: 120px">
+													<label for="">Phường/xã</label>
+												</div>
+												<select ng-model="info.ward" style="width: 100%">
+													<option value="">Chọn phường xã</option>
+													<option ng-repeat="city in ward.data"
+														value="{{city.WardName}}">{{city.WardName}}</option>
+												</select>
+											</div>
+											<div style="width: 50%">
+												<div style="width: 80px">
+													<label for="">Địa chỉ:</label>
+												</div>
+												<input style="float: right; width: 100%" type="text"
+													placeholder="Địa chỉ" ng-model="info.street">
+											</div>
+										</div>										
 									</div>
 								</div>
 							</form>
 						</div>
-					
-					
+
+
 						<!-- End Payment Way -->
 					</div>
 				</div>
@@ -103,10 +155,10 @@
 									<thead>
 										<tr>
 
-											<th class="product-name">Product</th>
-											<th class="product-price">Price</th>
-											<th class="product-quantity">Quantity</th>
-											<th class="product-subtotal">Total</th>
+											<th class="product-name">Sản phầm</th>
+											<th class="product-price">Giá</th>
+											<th class="product-quantity">Số lượng</th>
+											<th class="product-subtotal">Tổng</th>
 
 										</tr>
 									</thead>
@@ -125,8 +177,9 @@
 											<td class="product-name"><a href="#">{{icart.products.name}}</a></td>
 											<td class="product-price"><span class="amount">{{icart.realPrice
 													| currency:"":0}}VND</span></td>
-											<td class="product-subtotal"><input type="text" readonly style="padding-left: 24px"
-												min="1" id="{{icart.cartDetailID}}"
+											<td class="product-subtotal"><input type="text" readonly
+												style="padding-left: 24px" min="1"
+												id="{{icart.cartDetailID}}"
 												ng-click="viewItems.update(icart.cartDetailID)"
 												ng-model="icart.quantity" /></td>
 											<td class="product-quantity">{{icart.realPrice*icart.quantity|currency:"":0}}
@@ -141,23 +194,39 @@
 
 						</div>
 						<div class="col-md-4 col-sm-5 col-xs-12" style="width: 100%">
-								<div class="cart_totals">
-									<br> <br>
-									<table>
-										<tbody>
-											<tr class="order-total">
-												<th>Total</th>
-												<td><strong><span class="amount total">{{getTotal()|currency:"":0}}
-															VND</span></strong></td>
-											</tr>
-										</tbody>
-									</table>
-									<br> <br>
-									<div class="wc-proceed-to-checkout" ng-if="getTotal() >0">
-										<a ng-click="viewItems.addOrder()">Thanh toán</a>
-									</div>
+							<div class="cart_totals">
+								<br> <br>
+								<table>
+									<tbody>
+										<tr class="order-total">
+											<th>Phí ship</th>
+											<td ><strong><span class="amount total">{{totalfee|currency:"":0}}
+														VND</span></strong></td>
+										</tr>
+									</tbody>
+								</table>
+								<br> <br>
+
+							</div>
+						</div>
+						<div class="col-md-4 col-sm-5 col-xs-12" style="width: 100%">
+							<div class="cart_totals">
+								<br> <br>
+								<table>
+									<tbody>
+										<tr class="order-total">
+											<th>Tổng</th>
+											<td><strong><span class="amount total">{{getTotal()|currency:"":0}}
+														VND</span></strong></td>
+										</tr>
+									</tbody>
+								</table>
+								<br> <br>
+								<div class="wc-proceed-to-checkout" ng-if="getTotal() >0">
+									<a ng-click="viewItems.addOrder()">Thanh toán</a>
 								</div>
 							</div>
+						</div>
 					</div>
 				</div>
 			</div>

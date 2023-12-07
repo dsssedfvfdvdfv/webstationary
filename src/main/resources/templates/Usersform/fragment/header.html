@@ -87,26 +87,31 @@
                                     style=" display: block; max-width: 200px; max-height: 200px; width: 200px; height: 200px; margin-left: 70px;border-radius: 80%; "
                                     alt="" id="imageuser" ng-model="form.photo">
                                 <br>
-                                <input type="hidden" ng-model="form.photo" ng-value="form.photo"id="photo">
+                               
                                 <span class="login" name="formAccountRegis">
-                                    <input type="file" class="hidden" onchange="chooseFile(this)"  multiple>
+                                    <input type="file" id="photo" class="hidden"  onchange="chooseFile(this)"  multiple>
                                     <label for="photo" class="btn btn-outline btn-danger">Select file</label>
-
+									  <input id="filename" class="hidden" value="" ng-model="form.photo" ng-value="form.photo">
                                   
                                     <br>
                                     <script>
-                                        function chooseFile(fileInput) {
-
-                                            if (fileInput.files && fileInput.files[0]) {
-                                                var reader = new FileReader();
-
-                                                reader.onload = function (e) {
-                                                    $('#imageuser').attr('src', e.target.result);
-                                                }
-
-                                                reader.readAsDataURL(fileInput.files[0]);
+                                    function chooseFile(fileInput) {
+                                        if (fileInput.files && fileInput.files[0]) {
+                                            var fullPath = fileInput.value; // Lấy đường dẫn đầy đủ
+                                            var fileName = fullPath.replace(/^.*[\\\/]/, ''); // Bỏ bớt phần đường dẫn
+                                            var filenameElement = document.getElementById("filename");
+                                            var reader = new FileReader();
+                                            reader.onload = function (e) {
+                                                $('#imageuser').attr('src', e.target.result);
                                             }
+
+                                            reader.readAsDataURL(fileInput.files[0]);
+                                            filenameElement.value = fileName;
+                                            console.log("Selected file name: " + fileName);
+
                                         }
+                                    }
+
                                     </script>
                                     <label for="" style="float: right;">Email</label>
                                     <input type="email" readonly name="txtemails" ng-model="form.email"
