@@ -52,7 +52,12 @@ public class ProductRestController {
 		}
 		return ResponseEntity.ok(pDao.findById(productID).get());
 	}
-
+	
+	@GetMapping("/products/search/{name}")
+	public ResponseEntity<List<Products>> getSearch(@PathVariable("name") String name) {		
+		return ResponseEntity.ok(pDao.search(name));
+	} 
+	
 	@PostMapping("/products")
 	public ResponseEntity<Products> Post(@RequestBody Products product) {
 		if (pDao.existsById(product.getProductID())) {

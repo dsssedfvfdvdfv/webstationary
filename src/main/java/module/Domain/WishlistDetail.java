@@ -19,17 +19,19 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "wish_list")
-public class Wishlist implements Serializable {
+@Table(name = "wishlist_details")
+public class WishlistDetail implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer wishlist_id;
-
-//	@ManyToOne
-//	@JoinColumn(name = "username")
-//	private Account accountWishlist;
+	private Integer wishlist_detailid;
 	
+	private Double realPrice;
+
 	@ManyToOne
-	@JoinColumn(name = "username", referencedColumnName = "email")
-	private Account accountWishlist;
+	@JoinColumn(name = "productID")
+	private Products products;
+
+	@ManyToOne
+	@JoinColumn(name = "wishlist_id")
+	private Wishlist wishListItems;
 }

@@ -8,5 +8,6 @@ myapp.controller("ctrldetailproduct", function($scope) {
 		console.log(data);
 		$scope.form=data;
 	}
+	
 	$scope.load();
 });

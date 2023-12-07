@@ -221,9 +221,9 @@ myapp.controller("ctrlLogin",function($scope, $http,$timeout){
               accountCart: res.data,
               amount: 0
             }
-            console.log(itemcart);
+            
             $http.post(`http://localhost:8080/CartItem/cartItems`,itemcart).then(function(resp){
-
+			console.log(itemcart);
             },function(error){
                  Swal.fire(
                      'Error',
@@ -231,6 +231,22 @@ myapp.controller("ctrlLogin",function($scope, $http,$timeout){
                      'error'
                 )
             });
+             var itemwishlist = {
+              wishlist_id: 0,
+              accountWishlist: res.data,
+              amount: 0
+            }
+            console.log(itemwishlist);
+            $http.post(`http://localhost:8080/wishList/wishLists`,itemwishlist).then(function(resp){
+			 console.log(itemwishlist);
+            },function(error){
+                 Swal.fire(
+                     'Error',
+                     'Thêm wishlist thất bại' ,
+                     'error'
+                )
+            });
+           
             $scope.reset();
             $scope.load_all();
             },function(error){

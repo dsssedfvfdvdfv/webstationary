@@ -228,13 +228,13 @@ myapp.controller("ctrlcartDetail", function($scope, $http, $window) {
 	// Hàm update để cập nhật thông tin người dùng
 	$scope.update = function() {
 		var item = angular.copy($scope.form); // Tạo bản sao của thông tin người dùng để cập nhật
-		var name = document.getElementById("photo");
+		var name = document.getElementById("filename");
 		var value = name.value;
 		console.log(value);
 
 		item.photo = value; // Gán tên ảnh mới cho thông tin người dùng
 		var url = `http://localhost:8080/restAccount/accounts/${$scope.form.email}`;
-		 
+		
 		$http.put(url, item).then(resp => {
 			console.log(name);
 			Toast.fire({

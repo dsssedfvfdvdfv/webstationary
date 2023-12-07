@@ -26,9 +26,14 @@ public class CategoryRestController {
 
 	@GetMapping("/categories")
 	public ResponseEntity<List<Category>> getAll() {
-		return ResponseEntity.ok(cDao.findAllCategory());
+		return ResponseEntity.ok(cDao.findAll());
 	}
 
+	@GetMapping("/categoriestrue")
+	public ResponseEntity<List<Category>> getAllTrue() {
+		return ResponseEntity.ok(cDao.findAllCategory());
+	}
+	
 	@GetMapping("/categories/{categoryId}")
 	public ResponseEntity<Category> getOne(@PathVariable("categoryId") Integer categoryId) {
 		if (!cDao.existsById(categoryId)) {

@@ -1,5 +1,4 @@
 
-
 var app = angular.module("myapp", ['ngRoute']);
 app.config(function($routeProvider){
     $routeProvider
@@ -21,10 +20,15 @@ app.config(function($routeProvider){
         templateUrl: "/Adminform/pages/brand.html",
         controller: 'ctrlBrand' 
     })
+     .when("/order",{
+        templateUrl: "/Adminform/pages/order.html",
+        controller: 'ctrlorder' 
+    })
     .when("/statistical",{
         templateUrl: "/Adminform/pages/statistical.html",
         controller: 'ctrlstatistical' 
     })
+   
     .otherwise({
         redirectTo: "/statistical"
     });
