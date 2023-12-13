@@ -46,9 +46,28 @@ myapp.controller("ctrlcart", function($scope, $http) {
 								var product = $scope.detail[i];
 								total += (product.realPrice * product.quantity);
 							}
-							
+
 							return total;
 						}
+						$scope.getTotalFee = function() {
+					var total = 0;
+					for (var i = 0; i < $scope.detail.length; i++) {
+						var product = $scope.detail[i];
+						total += (product.realPrice * product.quantity);
+					}
+					const cookiesObject = Object.fromEntries(
+						document.cookie.split('; ').map(cookie => cookie.split('='))
+					);
+					const feeValue = parseFloat(cookiesObject['fee']);
+					if(feeValue){
+						var feeDouble=parseFloat(feeValue);
+					var totalDouble=parseFloat(total);
+					return totalDouble+feeDouble;
+					}else{
+						return total;
+					}
+					
+				}
 					});
 				});
 			} else {
@@ -66,8 +85,26 @@ myapp.controller("ctrlcart", function($scope, $http) {
 						var product = $scope.detail[i];
 						total += (product.realPrice * product.quantity);
 					}
-					sessionStorage.setItem('total',total);
 					return total;
+				}
+				$scope.getTotalFee = function() {
+					var total = 0;
+					for (var i = 0; i < $scope.detail.length; i++) {
+						var product = $scope.detail[i];
+						total += (product.realPrice * product.quantity);
+					}
+					const cookiesObject = Object.fromEntries(
+						document.cookie.split('; ').map(cookie => cookie.split('='))
+					);
+					const feeValue = parseFloat(cookiesObject['fee']);
+					if(feeValue){
+						var feeDouble=parseFloat(feeValue);
+					var totalDouble=parseFloat(total);
+					return totalDouble+feeDouble;
+					}else{
+						return total;
+					}
+					
 				}
 			}
 			// Gửi yêu cầu GET đến API để lấy thông tin giỏ hàng của người dùng
@@ -323,6 +360,13 @@ myapp.controller("ctrlcart", function($scope, $http) {
 		var amountValue = parseFloat(amountElement.textContent.replace(/\D/g, ""));
 		var order = getCookie('id');
 		var orders = JSON.parse(order);
+		function deleteCookie(name) {
+  // Đặt lại cookie với thời gian sống đã hết
+  document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+}
+
+// Gọi hàm để xóa cookie có tên là 'fee'
+deleteCookie('fee');
 
 		var dataOrder = {
 			orderid: orders, // Lấy orderID từ đối tượng orders
@@ -489,8 +533,8 @@ myapp.controller("ctrlcart", function($scope, $http) {
 		}
 
 	}
-		
-	
+
+
 
 	function caculatorFee(id) {
 		if (id) {
@@ -500,8 +544,8 @@ myapp.controller("ctrlcart", function($scope, $http) {
 				headers: {
 					'Token': token
 				}, params: {
-					service_type_id:"2",
-					insurance_value:sessionStorage.getItem('total'),
+					service_type_id: "2",
+					insurance_value: sessionStorage.getItem('total'),
 					coupon: null,
 					from_district_id: "1572",
 					to_district_id: id,
@@ -512,8 +556,8 @@ myapp.controller("ctrlcart", function($scope, $http) {
 				}
 			}).then(function(response) {
 				$scope.fee = response.data;
-				$scope.totalfee=$scope.fee.data.total;
-				console.log($scope.fee.data.total);
+				$scope.totalfee = $scope.fee.data.total;
+				document.cookie = 'fee=' + $scope.fee.data.total;
 			}, function(error) {
 				console.log('Error:', error);
 			});
@@ -523,7 +567,7 @@ myapp.controller("ctrlcart", function($scope, $http) {
 
 
 
-	
+
 	caculatorFee();
 	getCities();
 

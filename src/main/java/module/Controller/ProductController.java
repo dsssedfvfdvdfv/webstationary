@@ -96,10 +96,7 @@ public class ProductController {
 		return "Usersform/team";
 	}
 
-	@RequestMapping("wishlist")
-	public String wishlist() {
-		return "Usersform/wishlist";
-	}
+	
 
 	@RequestMapping("blog")
 	public String blog() {
@@ -118,6 +115,11 @@ public class ProductController {
 	@RequestMapping("order")
 	public String order() {
 		return "Usersform/order";
+	}
+	
+	@RequestMapping("wishlist")
+	public String wishlist() {
+		return "Usersform/wishlist";
 	}
 	
 	@RequestMapping("productdetail")

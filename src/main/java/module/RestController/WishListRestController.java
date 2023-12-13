@@ -58,7 +58,7 @@ public class WishListRestController {
 	 */
 	@GetMapping("wishLists/{username}")
 	public ResponseEntity<Wishlist> getbyUser(@PathVariable("username") String username) {
-		System.out.println("12312312312312312");
+	
 		return ResponseEntity.ok(Dao.findByUsername(username));
 	}
 
@@ -76,7 +76,7 @@ public class WishListRestController {
 
 	@PostMapping("wishListDetail")
 	public ResponseEntity<WishlistDetail> PostDetail(@RequestBody WishlistDetail WishListDetail) {
-		System.out.println(WishListDetail);
+		
 		if (dDao.existsById(WishListDetail.getWishlist_detailid())) {
 			return ResponseEntity.badRequest().build();
 		}
@@ -104,7 +104,7 @@ public class WishListRestController {
 	}
 
 	@DeleteMapping("/wishListDetail/{wishListDetailID}")
-	public ResponseEntity<Void> Delete(@PathVariable("cartDetailID") Integer wishListID) {
+	public ResponseEntity<Void> Delete(@PathVariable("wishListDetailID") Integer wishListID) {
 		if (!dDao.existsById(wishListID)) {
 			return ResponseEntity.notFound().build();
 		}

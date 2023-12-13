@@ -10,6 +10,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,16 +27,16 @@ import lombok.NoArgsConstructor;
 @Table(name = "CartItemDetails")
 public class CartItemDetail implements Serializable {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer cartDetailID;
-	private Integer quantity;
-	private Double realPrice;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer cartDetailID;
+    private Integer quantity;
+    private Double realPrice;
 
-	@ManyToOne
-	@JoinColumn(name = "productID")
-	private Products products;
+    @ManyToOne
+    @JoinColumn(name = "productID")
+    private Products products;
 
-	@ManyToOne
-	@JoinColumn(name = "cartID")
-	private CartItem cartItems;
+    @ManyToOne
+    @JoinColumn(name = "cartID")
+    private CartItem cartItem; 
 }

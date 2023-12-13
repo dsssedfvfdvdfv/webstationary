@@ -3,20 +3,22 @@ app.controller("ctrlAdmin",function($scope, $http){
     $scope.items = [];
     $scope.accrole = [];
     $scope.form = {};
-    $scope.view = {};
+    $scope.view = [];
     $scope.load_all = function(){
 
         //account
-        $http.get(`${hostAccount}/accounts`).then(resp => {
+        $http.get(`${hostAccount}/account/role`).then(resp => {
             $scope.items = resp.data;
             $scope.items.forEach(item => {
                 item.registerDate = new Date(item.registerDate)
             });
+           
         });
         //Role
-        var url = `${hostAccount}/Role/USER`;
+        var url = `${hostAccount}/Role`;
         $http.get(url).then(resp => {
             $scope.roles = resp.data;
+           
         });
        
     }
@@ -200,13 +202,39 @@ app.controller("ctrlAdmin",function($scope, $http){
          
     }
     //---------------------------------------------------------------
-    $scope.views = function(usern){
-        var url= `${hostAccount}/accounts/${usern}`;
-        $http.get(url).then(resp => {
-            $scope.view = resp.data;
-        }).catch(error => console.log("Error",error));
+  $scope.view = []; // Khai báo một mảng trống
+
+$scope.views = function(usern) {
+    var url = `${hostAccount}/account/role/${usern}`;
+    $http.get(url).then(resp => {
+        $scope.view = Array.isArray(resp.data) ? resp.data : [resp.data];
         
-            }
+    }).catch(error => console.log("Error", error));
+};
+	$scope.updateRolePermission = function() {     
+        updatePermissionFunction();
+};
+
+function updatePermissionFunction() {
+    var newRole = {
+        "id": "USER",
+        "name": "USER"
+    };
+
+    var url = `${hostAccount}/accountsss/${$scope.view[0][6]}`;
+    
+    $http.put(url, newRole)
+        .then(function (resp) {
+			window.location.reload();
+            alert("Thành công");
+        })
+        .catch(function (error) {
+            console.error('Lỗi khi cập nhật vai trò:', error);
+        });
+}
+
+
+
     //---------------------------------------------------------------
  
     $scope.pageac = {
