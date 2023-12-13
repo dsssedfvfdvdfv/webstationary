@@ -25,11 +25,8 @@ public class Wishlist implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer wishlist_id;
 
-//	@ManyToOne
-//	@JoinColumn(name = "username")
-//	private Account accountWishlist;
-	
+
 	@ManyToOne
-	@JoinColumn(name = "username", referencedColumnName = "email")
+	@JoinColumn(name = "username")
 	private Account accountWishlist;
 }

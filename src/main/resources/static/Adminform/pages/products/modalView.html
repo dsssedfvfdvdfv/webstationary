@@ -15,7 +15,7 @@
               class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}">
 
             <div class="form-group ">
-              <label for="">Ảnh</label>
+             
 
             </div>
           </div>
@@ -47,7 +47,7 @@
               <div class="form-group col-sm-6">
                 <label for="">Giá sản phẩm :</label>
                 <label type="text" placeholder="UnitPrice"
-                  style="font-style: italic; color: rgb(7, 7, 165);">{{view.unitPrice}}</label>
+                  style="font-style: italic; color: rgb(7, 7, 165);">{{view.unitPrice|currency:"":0}} VND</label>
 
               </div>
             </div>
@@ -64,7 +64,7 @@
               <div class="form-group col-sm-6">
                 <label for="">Discount :</label>
                 <label type="text" placeholder="Discount"
-                  style="font-style: italic; color: rgb(7, 7, 165);">{{view.discount}}</label>
+                  style="font-style: italic; color: rgb(7, 7, 165);">{{view.discount}}%</label>
 
               </div>
             </div>

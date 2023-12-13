@@ -65,7 +65,7 @@ public interface OrderDAO extends JpaRepository<Order, Integer> {
 	@Query(value = "select top 5 orders.user_id, accounts.name as 'Ten', COUNT(orders.orderid) as 'Tong so don', sum(orders.amount) as 'Tong tien'\r\n"
 			+ "from orders\r\n" + "join accounts on accounts.email = orders.user_id\r\n"
 			+ "where orders.status = 4\r\n" + "group by orders.user_id,accounts.name \r\n"
-			+ "order by COUNT(accounts.email) desc", nativeQuery = true)
+			+ "order by SUM(orders.amount) desc", nativeQuery = true)
 	List<Object[]> top5buyer();
 	
 	
