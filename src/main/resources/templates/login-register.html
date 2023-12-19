@@ -329,7 +329,7 @@
 											ng-model="formregis.password" name="txtpasswords"
 											minlength="6" placeholder="Mật khẩu*"><br> <span
 											ng-show="formAccountRegis.txtpasswords.$invalid"
-											class="check">Password cần hơn 6 kí tự</span> <br> <input
+											class="check">Mật khẩu cần hơn 6 kí tự</span> <br> <input
 											type="text" ng-model="formregis.name" name="txtnames"
 											minlength="4" placeholder="Tên*"> <span
 											ng-show="formAccountRegis.txtnames.$invalid" class="check">Hãy
@@ -340,7 +340,7 @@
 										<button class="btn btn-block  btn-danger "
 											ng-if="formregis.email.length > 11  && formregis.name.length > 3"
 											ng-click="sendMail()" data-toggle="modal"
-											data-target="#OTPModal" type="submit">register</button>
+											data-target="#OTPModal" type="submit">Đăng ký</button>
 									</form>
 									<!-- Modal -->
 									<div class="modal fade" id="OTPModal" tabindex="-1"

@@ -47,10 +47,19 @@ public interface OrderDAO extends JpaRepository<Order, Integer> {
 			+ "group by order_date\r\n" + "order by order_date desc", nativeQuery = true)
 	List<Object[]> findStatisticalByDay();
 
+	@Query(value = "select order_date as 'Time' ,count(orderid) as 'so luong',sum(amount) as 'tong tien' from orders where status = 4 and order_date like %:date%\r\n"
+			+ "group by order_date\r\n" + "order by order_date desc", nativeQuery = true)
+	List<Object[]> searchStatisticalByDay(@Param("date") String date);
+	
 	@Query(value = "select   cast(year(order_date) as varchar) + '-' +cast(month(order_date) as varchar) month, \r\n"
 			+ "count(orderid) as 'count', sum(amount) as 'sum' from orders where status = 4\r\n"
 			+ "group by month(order_date), year(order_date)\r\n" + "order by month desc", nativeQuery = true)
 	List<Object[]> findStatisticalByMonth();
+	
+	@Query(value = "select   cast(year(order_date) as varchar) + '-' +cast(month(order_date) as varchar) month, \r\n"
+			+ "count(orderid) as 'count', sum(amount) as 'sum' from orders where status = 4 and year(order_date) like %:year% and month(order_date) like %:month%\r\n"
+			+ "group by month(order_date), year(order_date)\r\n" + "order by month desc", nativeQuery = true)
+	List<Object[]> searchStatisticalByMonth(@Param("year") String year,@Param("month") String month);
 
 	@Query(value = "select year(order_date) as 'year',count(orderid) as 'count', sum(amount) as 'sum' from orders where status = 4\r\n"
 			+ "group by year(order_date)\r\n" + "order by year(order_date) desc", nativeQuery = true)

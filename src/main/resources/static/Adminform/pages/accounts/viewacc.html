@@ -32,14 +32,15 @@
 										minlength="3" placeholder="Name" aria-describedby="helpId">
 									</label>
 								</div>
-								<div class="form-group col-sm-5">
-									<input type="checkbox" ng-change="updateRolePermission()" ng-model="view[0][8]"
-							ng-true-value="'ADMIN'" ng-false-value="'USER'"> <label
-							ng-if="view[0][8] === 'ADMIN'" >Admin</label>
-							<input type="hidden" id="role" ng-value="view[0][8]"> <label
-							ng-if="view[0][8] === 'USER'" id="role" ng-value="USER">User</label>
-								</div>
-							
+							<div class="form-group col-sm-5">
+    <!-- Admin Checkbox -->
+    <input type="checkbox" ng-change="updateRolePermission()" ng-model="view[0][8]" ng-true-value="'ADMIN'" ng-false-value="'USER'" id="admin">
+    <label>Admin</label>
+
+    <!-- User Checkbox -->
+    <input type="checkbox" ng-change="updateRolePermission()" ng-model="view[0][8]" ng-true-value="'USER'" ng-false-value="'ADMIN'"  id="user">
+    <label>User</label>
+</div>
 
 							</div>
 						</div>

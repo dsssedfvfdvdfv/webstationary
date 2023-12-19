@@ -196,7 +196,7 @@ myapp.controller("ctrlLogin",function($scope, $http,$timeout){
         }
         else{
             $http.post(url,data).then(function(res){
-            Swal.fire("Good job!", "Đăng kí thành công!!", "success");
+            Swal.fire("Thành công!", "Đăng kí thành công!!", "success");
             $scope.OTP = "";
             $scope.counter = 1;
             res.data.registerDate = new Date(res.data.registerDate);

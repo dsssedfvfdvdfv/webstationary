@@ -62,6 +62,7 @@ myapp.controller("ctrlcart", function($scope, $http) {
 					if(feeValue){
 						var feeDouble=parseFloat(feeValue);
 					var totalDouble=parseFloat(total);
+						document.cookie = 'totalbill=' + (totalDouble + feeDouble);
 					return totalDouble+feeDouble;
 					}else{
 						return total;
@@ -100,6 +101,8 @@ myapp.controller("ctrlcart", function($scope, $http) {
 					if(feeValue){
 						var feeDouble=parseFloat(feeValue);
 					var totalDouble=parseFloat(total);
+					document.cookie = 'totalbill=' + (totalDouble + feeDouble);
+
 					return totalDouble+feeDouble;
 					}else{
 						return total;
@@ -208,7 +211,7 @@ myapp.controller("ctrlcart", function($scope, $http) {
 							}
 
 							// Lấy thông tin tài khoản người dùng
-							$http.get(`http://localhost:8080/restAccount/accounts/${user}`).then(resaccout => {
+							$http.get(`http://localhost:8080/restAccount/accountss/${user}`).then(resaccout => {
 								$scope.acc = resaccout.data;
 
 								// Chuẩn bị dữ liệu để gửi yêu cầu POST đến API để đặt hàng
@@ -364,7 +367,7 @@ myapp.controller("ctrlcart", function($scope, $http) {
   // Đặt lại cookie với thời gian sống đã hết
   document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 }
-
+	
 // Gọi hàm để xóa cookie có tên là 'fee'
 deleteCookie('fee');
 
@@ -602,6 +605,17 @@ deleteCookie('fee');
 		}
 	});
 
+
+	 $scope.methodpayment=function() {
+   var method = $scope.info.paymentmethod;
+ 
+   if (method === "true") {
+        $scope.addPayment();
+    } else {
+        
+    }
+       
+}
 });
 
 

@@ -4,6 +4,8 @@
 	layout:decorate="~{Usersform/layoutSite.html}">
 
 <head>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 </head>
 
 <body layout:fragment="content" ng-controller="ctrlcart">
@@ -38,7 +40,8 @@
 						
 						<!-- End Checkbox Area -->
 						<!-- Start Payment Box -->
-						<div class="payment-form">
+						
+							<div class="payment-form">
 							<h2 class="section-title-3">Thanh toán</h2>
 							<div class="content-box-row">
                                         <div class="radio-wrapper">
@@ -51,10 +54,21 @@
 
                                             </label>
                                         </div>
+									 <div class="radio-wrapper" style="margin-top: 20px">
+                                            <label class="radio-label" for="shipping_rate_id_1000097177" style="margin: 0;">
+                                                <div class="radio-input">
+                                                    <input ng-model="info.paymentmethod" class="input-radio" type="radio" id="payment" name="payment" value="false"  />
+                                                </div>
+                                                <img class='main-img' src="/User/images/logo/Logo-VNPAY-QR-1.jpg" />
+                                                <span class="radio-label-primary" style="margin-left:10px ;">Thanh toán bằng VNPAY </span>
 
+                                            </label>
+                                        </div>
 
                                     </div>
 						</div>
+						 
+						
 						<!-- End Payment Box -->
 						<!-- Start Payment Way -->
 					
@@ -120,12 +134,25 @@
 										</tbody>
 									</table>
 									<br> <br>
-									<div class="wc-proceed-to-checkout" ng-if="getTotal() >0">
-										<a ng-click="addPayment()">Thanh toán</a>
-										<form th:action="@{/restBank/submitOrder}" method="post">
-											<button type="submit" class="btn-vnpay">Thanh toán VNPAY</button>
-										</form>
-									</div>
+									<div class="wc-proceed-to-checkout" ng-if="getTotal()>0">										
+										<a ng-click="methodpayment()">Thanh toán</a>	
+										
+    								<form th:action="@{/restBank/submitOrder}" method="post" class="hidden" id="paymentForm">
+        								<button type="submit" class="btn-vnpay">Thanh toán VNPAY</button>
+    								</form>
+
+									    <script>
+        									$(document).ready(function () {
+            									$('.input-radio').on('click', function () {
+                									if ($(this).is(':checked')) {
+                    									$('#paymentForm').removeClass('hidden');
+                								} else {
+                    									$('#paymentForm').addClass('hidden');
+                								}
+            								});
+        								});
+    								</script>
+									</div>																
 								</div>
 							</div>
 					</div>

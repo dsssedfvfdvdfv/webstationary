@@ -134,7 +134,7 @@ public class ProductController {
 		    String idhoadon = ""; 
 		    if (cookies != null) {
 		        for (Cookie cookie : cookies) {
-		            if ("total".equals(cookie.getName())) {
+		            if ("totalbill".equals(cookie.getName())) {
 		             
 		                try {
 		                    orderTotal = Integer.parseInt(cookie.getValue());

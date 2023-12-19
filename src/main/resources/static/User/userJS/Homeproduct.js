@@ -23,7 +23,7 @@ myapp.controller("ctrlHome", function($scope, $http) {
 			$scope.items = resp.data; // Gán dữ liệu sản phẩm từ phản hồi server vào biến $scope.items
 
 			/*$scope.itemss.forEach(item => {
-				item.enteredDate = new Date(item.enteredDate); // Chuyển đổi định dạng ngày thành đối tượng ngày
+				item.enteredDate = new Date(item.enteredDate); 
 			});
 			*/
 		});
@@ -34,14 +34,14 @@ myapp.controller("ctrlHome", function($scope, $http) {
 			$scope.itemss = resp.data; // Gán dữ liệu sản phẩm từ phản hồi server vào biến $scope.items
 
 			/*$scope.itemss.forEach(item => {
-				item.enteredDate = new Date(item.enteredDate); // Chuyển đổi định dạng ngày thành đối tượng ngày
+				item.enteredDate = new Date(item.enteredDate); 
 			});
 			*/
 		});
 	}
 	/* Hàm getAmount để tính giá sau khi giảm giá:*/
 	$scope.getAmount = function(unitPrice, discount) {
-		return unitPrice * ((100 - discount) / 100); // Tính giá sau khi áp dụng giảm giá
+		return unitPrice * ((100 - discount) / 100); 
 	}
 
 
@@ -76,7 +76,7 @@ myapp.controller("ctrlHome", function($scope, $http) {
 	$scope.loadcate = function() {
 		var url = `http://localhost:8080/categoryRest/categoriestrue`
 		$http.get(url).then(resp => {
-			$scope.itemcate = resp.data; // Gán dữ liệu danh mục sản phẩm từ phản hồi server vào biến $scope.itemcate
+			$scope.itemcate = resp.data; 
 
 		}).catch(error => {
 
@@ -87,13 +87,12 @@ myapp.controller("ctrlHome", function($scope, $http) {
 	$scope.productincate = function(categoryID) {
 		var url = `http://localhost:8080/restProduct/category/${categoryID}`
 		$http.get(url).then(resp => {
-			$scope.items = resp.data; // Gán dữ liệu sản phẩm từ phản hồi server vào biến $scope.items
+			$scope.items = resp.data; 
 		}).catch(error => {
 
 		});
 	}
 
-	/* Hàm cart để quản lý giỏ hàng: */
 	$scope.cart = {
 		add(productID) {
 			//cart items
@@ -103,12 +102,13 @@ myapp.controller("ctrlHome", function($scope, $http) {
 			if (user) {
 				$http.get(`${urlcartitems}/${user}`).then(resitem => {
 					$scope.itemcart = resitem.data;
+					console.log($scope.itemcart);
 					var urlproduct = `${hostHome}/${productID}`;
 
 					$http.get(urlproduct).then(resproduct => {
 
 						$scope.product = resproduct.data;
-
+						console.log($scope.product)
 						//cart
 						var urlpost = `http://localhost:8080/CartItem/cartItemDetail`;
 						var data = {
@@ -118,7 +118,8 @@ myapp.controller("ctrlHome", function($scope, $http) {
 							products: $scope.product,
 							cartItems: $scope.itemcart
 						}
-
+						
+						
 						var check = false;
 						$http.get(`http://localhost:8080/CartItem/cartItemDetail/${data.cartItems.cartID}`).then(resitem => {
 							$scope.checkProduct = resitem.data;
@@ -140,7 +141,7 @@ myapp.controller("ctrlHome", function($scope, $http) {
 										icon: 'success',
 										title: 'Đã thêm sản phẩm ' + $scope.product.name,
 									})
-									console.log($scope.product);
+									console.log(data.cartItems.cartID);
 
 								}, function(error) {
 									Swal.fire(
@@ -151,48 +152,10 @@ myapp.controller("ctrlHome", function($scope, $http) {
 								})
 							}
 						})
+						
 					});
 				});
-				var urlproduct = `${hostHome}/${productID}`;
-				$http.get(urlproduct).then(resproduct => {
-					$scope.product = resproduct.data;
-
-
-					var cartItems = JSON.parse(sessionStorage.getItem('cartItems')) || [];
-
-					// Kiểm tra xem sản phẩm đã tồn tại trong giỏ hàng chưa
-					var isProductInCart = false;
-					for (var i = 0; i < cartItems.length; i++) {
-						if (cartItems[i].products.productID === $scope.product.productID) {
-							isProductInCart = true;
-							break;
-						}
-					}
-
-					if (!isProductInCart) {
-						var data = {
-							cartDetailID: 0,
-							quantity: 1,
-							realPrice: $scope.getAmount($scope.product.unitPrice, $scope.product.discount),
-							products: $scope.product,
-							cartItems: $scope.itemcarts
-						};
-						cartItems.push(data);
-						$scope.cartItems = cartItems;
-						sessionStorage.setItem('cartItems', JSON.stringify(cartItems));
-
-						Toast.fire({
-							icon: 'success',
-							title: 'Đã thêm sản phẩm ' + $scope.product.name,
-						});
-					} else {
-						// Hiển thị thông báo hoặc thực hiện các hành động cần thiết để cho biết sản phẩm đã có trong giỏ hàng.
-						Toast.fire({
-							icon: 'warning',
-							title: 'Sản phẩm ' + $scope.product.name + ' đã có trong giỏ hàng.',
-						});
-					}
-				})
+				
 			} else {
 				var urlproduct = `${hostHome}/${productID}`;
 				$http.get(urlproduct).then(resproduct => {

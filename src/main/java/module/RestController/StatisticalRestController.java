@@ -43,12 +43,22 @@ public class StatisticalRestController {
 	public ResponseEntity<List<Object[]>> getByDay() {
 		return ResponseEntity.ok(dao.findStatisticalByDay());
 	}
+	
+	@GetMapping("searchturnoverday/{date}")
+	public ResponseEntity<List<Object[]>> SearchgetByDay(@PathVariable("date") String date) {
+		return ResponseEntity.ok(dao.searchStatisticalByDay(date));
+	}
 
 	@GetMapping("turnovermonth")
 	public ResponseEntity<List<Object[]>> getByMonth() {
 		return ResponseEntity.ok(dao.findStatisticalByMonth());
 	}
 
+	@GetMapping("/searchturnovermonth/{year}/{month}")
+	public ResponseEntity<List<Object[]>> SearchByMonth(@PathVariable("year") String year,@PathVariable("month") String month) {
+		return ResponseEntity.ok(dao.searchStatisticalByMonth(year, month));
+	}
+	
 	@GetMapping("turnoveryear")
 	public ResponseEntity<List<Object[]>> getByYear() {
 		return ResponseEntity.ok(dao.findStatisticalByYear());

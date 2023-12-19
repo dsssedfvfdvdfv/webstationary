@@ -38,5 +38,5 @@ public class CartItemDetail implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "cartID")
-    private CartItem cartItem; 
+    private CartItem cartItems; 
 }

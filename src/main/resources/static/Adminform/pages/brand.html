@@ -26,15 +26,15 @@
               <div class="form-group">
                 <label for="">Tên</label> <input type="text" class="form-control" minlength="2" ng-model="form.name"
                   name="txtname" aria-describedby="helpId" placeholder="Name">
-                <span ng-show="formbrand.txtname.$invalid" id="helpId" class="check">Hãy nhập đúng Brand của bạn</span>
+                <span ng-show="formbrand.txtname.$invalid" id="helpId" class="check">Hãy nhập đúng tên hãng của bạn</span>
               </div>
             </div>
           </div>
         </div>
         <div class="card-footer text-muted">
-          <button class="btn btn-success" ng-click="create()">Create</button>
-          <button class="btn btn-warning" ng-click="update()">Update</button>
-          <button class="btn btn-danger" ng-click="delete(form.brandID)">Delete</button>
+          <button class="btn btn-success" ng-click="create()">Tạo</button>
+          <button class="btn btn-warning" ng-click="update()">Cập nhập</button>
+          <button class="btn btn-danger" ng-click="delete(form.brandID)">Xóa</button>
           <button class="btn btn-primary" ng-click="reset()">Reset</button>
         </div>
       </div>
