@@ -1778,7 +1778,7 @@ product__style--7
     text-transform: capitalize;
 }
 .htc__choose__wrap {
-    padding: 114px 120px;
+    padding: 59px 120px;
 }
 .choose__container {
     display: flex;
@@ -3781,7 +3781,7 @@ a.shipping-calculator-button:hover {
     margin-left: 10px;
     display: flex;
     align-self: center;
-    width: 40px;
+    
     height: 40px;
 }
 .single-checkout-box input + input {

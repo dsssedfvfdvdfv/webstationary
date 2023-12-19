@@ -216,7 +216,30 @@ $scope.views = function(usern) {
 };
 
 function updatePermissionFunction() {
-    var newRole = {
+	var user = document.getElementById("user");
+	var admin = document.getElementById("admin");
+
+	if(user.checked==true){
+		 var newRole = {
+        "id": "ADMIN",
+        "name": "ADMIN"
+    };
+
+    var url = `${hostAccount}/accountsss/${$scope.view[0][6]}`;
+    
+    $http.put(url, newRole)
+        .then(function (resp) {
+			window.location.reload();
+            alert("Thành công");
+            return;
+        })
+        .catch(function (error) {
+            console.error('Lỗi khi cập nhật vai trò:', error);
+        });
+	}
+	
+	if(admin.checked==true){
+			 var newRole = {
         "id": "USER",
         "name": "USER"
     };
@@ -227,10 +250,13 @@ function updatePermissionFunction() {
         .then(function (resp) {
 			window.location.reload();
             alert("Thành công");
+            return;
         })
         .catch(function (error) {
             console.error('Lỗi khi cập nhật vai trò:', error);
         });
+	}
+   
 }
 
 

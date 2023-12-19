@@ -30,7 +30,7 @@ app.controller("ctrlBrand",function($scope,$http){
     $scope.view = function(brandID){
         var url= `${hostbrand}/${brandID}`;
         $http.get(url).then(resp => {
-            Swal.fire("Information!", "<b style='font-size: 30px;' >ID: " +resp.data.brandID +"</b> <br>" +"<i style='font-size: 20px;'> Name: "+decodeURIComponent(resp.data.name) +"</i>", "info");
+            Swal.fire("Thông tin!", "<b style='font-size: 30px;' >ID: " +resp.data.brandID +"</b> <br>" +"<i style='font-size: 20px;'> Tên: "+decodeURIComponent(resp.data.name) +"</i>", "info");
         }).catch(error => console.log("Error",error));
             }
     //---------------------------------------------------------------

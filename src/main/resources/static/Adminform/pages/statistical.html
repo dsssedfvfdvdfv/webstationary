@@ -14,8 +14,19 @@
 		</ul>
 	</div>
 	<div class="tab-content ">	
+
+	
 		<div class="tab-pane fade in active" id="turnover">
+	
+		
+
 			<div class="panel panel-heading text-right">
+				<div style="float: left;">
+		<label for="birthday">Lựa chọn ngày:</label>
+		<input type="date" ng-model="selectedDate" ng-change="getDate()">
+			<label for="birthday">Lựa chọn tháng năm:</label>
+		<input type="month" ng-model="selectedDate" ng-change="getMonth()">
+		</div>
 				<button class="btn btn-primary" ng-click="turnover()">Theo
 					Ngày</button>
 				<button class="btn btn-primary" ng-click="turnovermonth()">Theo
@@ -63,6 +74,7 @@
 				</button>
 
 			</div>
+			
 		</div>
 		<div class="tab-pane fade" id="top">
 			<div class="panel panel-heading">
@@ -88,8 +100,10 @@
 					</tbody>
 				</table>
 			</div>
+			 <div class="container">
+        			<canvas id="myChart"></canvas>
+    		</div>
 			
-			<!-- end modal info -->
 		</div>
 		<div class="tab-pane fade" id="topuser">
 			

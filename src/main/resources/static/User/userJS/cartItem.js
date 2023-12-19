@@ -22,8 +22,7 @@ myapp.controller("ctrlcartDetail", function($scope, $http, $window) {
 		if (user) {
 			// Gửi yêu cầu GET để lấy thông tin giỏ hàng của người dùng
 			$http.get(`http://localhost:8080/CartItem/cartItems/${user}`).then(resitem => {
-				$scope.itemcart = resitem.data; // Lưu thông tin giỏ hàng vào biến $scope.itemcart
-				console.log($scope.itemcart);
+				$scope.itemcart = resitem.data; // Lưu thông tin giỏ hàng vào biến $scope.itemcart				
 				$http.get(`http://localhost:8080/CartItem/cartItemDetail/${$scope.itemcart.cartID}`).then(rescartDetail => {
 					$scope.detail = rescartDetail.data; // Lưu danh sách chi tiết sản phẩm vào biến $scope.detail
 
@@ -150,11 +149,11 @@ myapp.controller("ctrlcartDetail", function($scope, $http, $window) {
 	}
 	// Hàm dùng để hiển thị thông tin người dùng hiện tại và chỉnh thông tin người dùng
 	$scope.edit = function() {
-		var user = $("#useredit").text(); // Lấy thông tin người dùng hiện tại
+		var user = $("#useredit").text(); 
 		var url = `http://localhost:8080/restAccount/accountss/${user}`;
 		$http.get(url).then(resp => {
-			$scope.form = resp.data; // Gán thông tin người dùng cho biến $scope.form để hiển thị và chỉnh sửa
-			$scope.names = resp.data.name; // Gán tên người dùng cho biến $scope.names để hiển thị
+			$scope.form = resp.data; 
+			$scope.names = resp.data.name; 
 		}).catch(error => console.log("Error", error));
 	}
 

@@ -13,7 +13,7 @@ app.controller("ctrlCategory",function($scope,$http){
         var url = `${hostCate}`;
         $http.get(url).then(resp => {
             $scope.items = resp.data;
-            console.log("Success",resp)
+          
         }).catch(error =>{
             console.log("Error",error)
         });
@@ -23,14 +23,14 @@ app.controller("ctrlCategory",function($scope,$http){
         var url= `${hostCate}/${categoryID}`;
         $http.get(url).then(resp => {
              $scope.form = resp.data;
-             console.log("success",resp)
+            
         }).catch(error => console.log("Error",error));
     }
      //---------------------------------------------------------------
     $scope.view = function(categoryID){
         var url= `${hostCate}/${categoryID}`;
         $http.get(url).then(resp => {
-            Swal.fire("Information!", "<b>ID: " +resp.data.categoryID +"</b> <br>" +"<i> Name: "+resp.data.name +"</i>", "info");
+            Swal.fire("Thông tin!", "<b>ID: " +resp.data.categoryID +"</b> <br>" +"<i> Tên: "+resp.data.name +"</i>", "info");
         }).catch(error => console.log("Error",error));
             }
       //---------------------------------------------------------------

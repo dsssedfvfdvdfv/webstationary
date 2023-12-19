@@ -66,6 +66,22 @@ public class AccountRestController {
 		aDao.findById(username).get().setPassword(bCryptPasswordEncoder.encode(aDao.findById(username).get().getPassword()));
 		return ResponseEntity.ok(aDao.findAccountRole(username));
 	}
+	@GetMapping("/account/{username}")
+	public ResponseEntity<Account> getOneAccounts(@PathVariable("username") String username) {
+		if (!aDao.existsById(username)) {
+			return ResponseEntity.notFound().build();
+		}
+		
+		return ResponseEntity.ok(aDao.findById(username).get());
+	}
+	@GetMapping("/accounts/{username}")
+	public ResponseEntity<Account> getOne(@PathVariable("username") String username) {
+		if (!aDao.existsById(username)) {
+			return ResponseEntity.notFound().build();
+		}
+		aDao.findById(username).get().setPassword(bCryptPasswordEncoder.encode(aDao.findById(username).get().getPassword()));
+		return ResponseEntity.ok(aDao.findById(username).get());
+	}
 	@GetMapping("/accountss/{username}")
 	public ResponseEntity<Account> getOneAccount(@PathVariable("username") String username) {
 		if (!aDao.existsById(username)) {

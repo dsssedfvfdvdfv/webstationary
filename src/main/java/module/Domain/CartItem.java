@@ -42,7 +42,7 @@ public class CartItem implements Serializable {
     private Account accountCart;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "cartItem", fetch = FetchType.LAZY) 
+    @OneToMany(mappedBy = "cartItems", fetch = FetchType.LAZY) 
     @Cascade(value = { CascadeType.SAVE_UPDATE, CascadeType.DELETE })
     @OnDelete(action = OnDeleteAction.CASCADE)
     Set<CartItemDetail> cartItemDetails;
